@@ -1,6 +1,6 @@
 # ethabi-js
 
-A very early, very POC-type port of (https://github.com/ethcore/ethabi)[https://github.com/ethcore/ethabi] to JavaScript
+A very early, very POC-type port of [https://github.com/ethcore/ethabi](https://github.com/ethcore/ethabi) to JavaScript
 
 ## implementation
 
