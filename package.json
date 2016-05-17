@@ -1,0 +1,35 @@
+{
+  "name": "",
+  "version": "",
+  "scripts": {
+    "lint": "eslint --ignore-path .gitignore .",
+    "testCoverage": "babel-node node_modules/istanbul/lib/cli.js cover _mocha -- 'src/**/*.spec.js'",
+    "testOnce": "babel-node node_modules/.bin/_mocha 'src/**/*.spec.js'"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.8.0",
+    "babel-core": "^6.8.0",
+    "babel-eslint": "^6.0.4",
+    "babel-plugin-transform-runtime": "^6.8.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-runtime": "^6.6.1",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
+    "eslint": "^2.10.2",
+    "eslint-config-semistandard": "^6.0.2",
+    "eslint-config-standard": "^5.3.1",
+    "eslint-plugin-promise": "^1.1.0",
+    "eslint-plugin-standard": "^1.3.2",
+    "istanbul": "^1.0.0-alpha",
+    "mocha": "^2.4.5",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0"
+  },
+  "dependencies": {
+    "bignumber.js": "^2.3.0",
+    "js-sha3": "^0.5.1",
+    "utf8": "^2.1.1",
+    "yargs": "^4.7.0"
+  }
+}
