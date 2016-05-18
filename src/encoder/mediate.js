@@ -33,7 +33,7 @@ export default class Mediate {
         return 0;
 
       case 'prefixed':
-        return 32 + this._value.length / 2;
+        return this._value.length / 2;
 
       case 'array':
         return this._value

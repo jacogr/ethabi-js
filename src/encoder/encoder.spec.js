@@ -195,6 +195,28 @@ describe('encoder/encoder', () => {
 
         expect(coder.encode([token])).to.equal(`${padU32(20)}${padU32('40')}${padFixedBytes(input)}`);
       });
+
+      it('encodes two consecutive bytes', () => {
+        const in1 = '10000000000000000000000000000000000000000000000000000000000002';
+        const in2 = '0010000000000000000000000000000000000000000000000000000000000002';
+        const tokens = [new Token('bytes', in1), new Token('bytes', in2)];
+
+        // 0000000000000000000000000000000000000000000000000000000000000040
+        // 00000000000000000000000000000000000000000000000000000000000000a0
+        // 000000000000000000000000000000000000000000000000000000000000001f
+        // 1000000000000000000000000000000000000000000000000000000000000200
+        // 0000000000000000000000000000000000000000000000000000000000000020
+        // 0010000000000000000000000000000000000000000000000000000000000002
+
+        // 0000000000000000000000000000000000000000000000000000000000000040
+        // 0000000000000000000000000000000000000000000000000000000000000080
+        // 000000000000000000000000000000000000000000000000000000000000001f
+        // 1000000000000000000000000000000000000000000000000000000000000200
+        // 0000000000000000000000000000000000000000000000000000000000000020
+        // 0010000000000000000000000000000000000000000000000000000000000002
+
+        expect(coder.encode(tokens)).to.equal(`${padU32('40')}${padU32('80')}${padU32('1f')}${padFixedBytes(in1)}${padU32('20')}${padFixedBytes(in2)}`);
+      });
     });
 
     describe('string', () => {
@@ -204,6 +226,53 @@ describe('encoder/encoder', () => {
         const token = new Token('string', string);
 
         expect(coder.encode([token])).to.equal(`${padU32('20')}${padU32(string.length.toString(16))}${stringEnc}`);
+      });
+    });
+
+    describe('uint', () => {
+      it('encodes a uint', () => {
+        const token = new Token('uint', 4);
+
+        expect(coder.encode([token])).to.equal(padU32(4));
+      });
+    });
+
+    describe('int', () => {
+      it('encodes a int', () => {
+        const token = new Token('int', 4);
+
+        expect(coder.encode([token])).to.equal(padU32(4));
+      });
+    });
+
+    describe('bool', () => {
+      it('encodes a bool (true)', () => {
+        const token = new Token('bool', true);
+
+        expect(coder.encode([token])).to.equal(padU32(1));
+      });
+
+      it('encodes a bool (false)', () => {
+        const token = new Token('bool', false);
+
+        expect(coder.encode([token])).to.equal(padU32(0));
+      });
+    });
+
+    describe('comprehensive test', () => {
+      it('encodes a complex sequence', () => {
+        const bytes = '131a3afc00d1b1e3461b955e53fc866dcf303b3eb9f4c16f89e388930f48134b131a3afc00d1b1e3461b955e53fc866dcf303b3eb9f4c16f89e388930f48134b';
+        const tokens = [new Token('int', 5), new Token('bytes', bytes), new Token('int', 3), new Token('bytes', bytes)];
+
+        expect(coder.encode(tokens)).to.equal(`${padU32(5)}${padU32('80')}${padU32(3)}${padU32('e0')}${padU32(40)}${bytes}${padU32('40')}${bytes}`);
+      });
+
+      it('encodes a complex sequence (nested)', () => {
+        const array = [new Token('int', 5), new Token('int', 6), new Token('int', 7)];
+        const tokens = [new Token('int', 1), new Token('string', 'gavofyork'), new Token('int', 2), new Token('int', 3), new Token('int', 4), new Token('array', array)];
+        const stringEnc = padFixedBytes('6761766f66796f726b');
+
+        expect(coder.encode(tokens)).to.equal(`${padU32(1)}${padU32('c0')}${padU32(2)}${padU32(3)}${padU32(4)}${padU32('100')}${padU32(9)}${stringEnc}${padU32(3)}${padU32(5)}${padU32(6)}${padU32(7)}`);
       });
     });
   });

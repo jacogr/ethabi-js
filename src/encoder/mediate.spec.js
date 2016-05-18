@@ -75,7 +75,7 @@ describe('encoder/mediate', () => {
     });
 
     it('returns prefix + size for prefixed', () => {
-      expect(new Mediate('prefixed', DOUBLE15).closingLength()).to.equal(96);
+      expect(new Mediate('prefixed', DOUBLE15).closingLength()).to.equal(64);
     });
 
     it('returns prefix + size for array', () => {
