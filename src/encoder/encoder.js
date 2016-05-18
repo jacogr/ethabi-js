@@ -19,6 +19,8 @@ export default class Encoder {
   encodeToken (token) {
     switch (token.type) {
       case 'address':
+      case 'int':
+      case 'uint':
         return new Mediate('raw', padU32(token.value));
 
       case 'bool':
@@ -30,20 +32,16 @@ export default class Encoder {
       case 'bytes':
         return new Mediate('prefixed', padBytes(token.value));
 
-      case 'int':
-        return new Mediate('raw', padU32(token.value));
-
-      case 'uint':
-        return new Mediate('raw', padU32(token.value));
-
       case 'string':
-        return new Mediate('prefixed', padBytes(utf8.encode(token.value)));
+        const bytes = utf8.encode(token.value)
+          .split('')
+          .map((char) => char.charCodeAt(0).toString(16))
+          .join('');
+        return new Mediate('prefixed', padBytes(bytes));
 
       case 'fixedArray':
-        return new Mediate('fixedArray', token.value.map((token) => this.encodeToken(token)));
-
       case 'array':
-        return new Mediate('array', token.value.map((token) => this.encodeToken(token)));
+        return new Mediate(token.type, token.value.map((token) => this.encodeToken(token)));
 
       default:
         throw new Error(`Invalid token type ${token.type} in encodeToken`);

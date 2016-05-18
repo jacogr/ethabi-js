@@ -1,6 +1,6 @@
 import Encoder from './encoder';
 import Token from '../token';
-import { padU32 } from './pad';
+import { padFixedBytes, padU32 } from './pad';
 
 const coder = new Encoder();
 
@@ -14,10 +14,14 @@ describe('encoder/encoder', () => {
     });
 
     it('encodes bool tokens in Mediate(raw)', () => {
-      const mediate = coder.encodeToken(new Token('bool', true));
+      const mediatet = coder.encodeToken(new Token('bool', true));
+      const mediatef = coder.encodeToken(new Token('bool', false));
 
-      expect(mediate.type).to.equal('raw');
-      expect(mediate.value).to.be.ok;
+      expect(mediatet.type).to.equal('raw');
+      expect(mediatet.value).to.be.ok;
+
+      expect(mediatef.type).to.equal('raw');
+      expect(mediatef.value).to.be.ok;
     });
 
     it('encodes int tokens in Mediate(raw)', () => {
@@ -84,37 +88,41 @@ describe('encoder/encoder', () => {
       const encAddress2 = padU32(address2);
       const encAddress3 = padU32(address3);
       const encAddress4 = padU32(address4);
+      const tokenAddress1 = new Token('address', address1);
+      const tokenAddress2 = new Token('address', address2);
+      const tokenAddress3 = new Token('address', address3);
+      const tokenAddress4 = new Token('address', address4);
 
       it('encodes an address', () => {
-        const token = new Token('address', address1);
+        const token = tokenAddress1;
 
         expect(coder.encode([token])).to.equal(encAddress1);
       });
 
       it('encodes an array of addresses', () => {
         const expected = `${padU32('20')}${padU32('2')}${encAddress1}${encAddress2}`;
-        const token = new Token('array', [new Token('address', address1), new Token('address', address2)]);
+        const token = new Token('array', [tokenAddress1, tokenAddress2]);
 
         expect(coder.encode([token])).to.equal(expected);
       });
 
       it('encodes an fixedArray of addresses', () => {
         const expected = `${encAddress1}${encAddress2}`;
-        const token = new Token('fixedArray', [new Token('address', address1), new Token('address', address2)]);
+        const token = new Token('fixedArray', [tokenAddress1, tokenAddress2]);
 
         expect(coder.encode([token])).to.equal(expected);
       });
 
       it('encodes two addresses', () => {
         const expected = `${encAddress1}${encAddress2}`;
-        const tokens = [new Token('address', address1), new Token('address', address2)];
+        const tokens = [tokenAddress1, tokenAddress2];
 
         expect(coder.encode(tokens)).to.equal(expected);
       });
 
       it('encodes fixed array of dynamic array addresses', () => {
-        const tokens1 = new Token('array', [new Token('address', address1), new Token('address', address2)]);
-        const tokens2 = new Token('array', [new Token('address', address3), new Token('address', address4)]);
+        const tokens1 = new Token('array', [tokenAddress1, tokenAddress2]);
+        const tokens2 = new Token('array', [tokenAddress3, tokenAddress4]);
         const fixed = new Token('fixedArray', [tokens1, tokens2]);
         const expected = `${padU32('40')}${padU32('a0')}${padU32('2')}${encAddress1}${encAddress2}${padU32('2')}${encAddress3}${encAddress4}`;
 
@@ -122,8 +130,8 @@ describe('encoder/encoder', () => {
       });
 
       it('encodes dynamic array of fixed array addresses', () => {
-        const tokens1 = new Token('fixedArray', [new Token('address', address1), new Token('address', address2)]);
-        const tokens2 = new Token('fixedArray', [new Token('address', address3), new Token('address', address4)]);
+        const tokens1 = new Token('fixedArray', [tokenAddress1, tokenAddress2]);
+        const tokens2 = new Token('fixedArray', [tokenAddress3, tokenAddress4]);
         const dynamic = new Token('array', [tokens1, tokens2]);
         const expected = `${padU32('20')}${padU32('2')}${encAddress1}${encAddress2}${encAddress3}${encAddress4}`;
 
@@ -131,8 +139,8 @@ describe('encoder/encoder', () => {
       });
 
       it('encodes dynamic array of dynamic array addresses', () => {
-        const tokens1 = new Token('array', [new Token('address', address1)]);
-        const tokens2 = new Token('array', [new Token('address', address2)]);
+        const tokens1 = new Token('array', [tokenAddress1]);
+        const tokens2 = new Token('array', [tokenAddress2]);
         const dynamic = new Token('array', [tokens1, tokens2]);
         const expected = `${padU32('20')}${padU32('2')}${padU32('80')}${padU32('c0')}${padU32('1')}${encAddress1}${padU32('1')}${encAddress2}`;
 
@@ -140,8 +148,8 @@ describe('encoder/encoder', () => {
       });
 
       it('encodes dynamic array of dynamic array addresses (2)', () => {
-        const tokens1 = new Token('array', [new Token('address', address1), new Token('address', address2)]);
-        const tokens2 = new Token('array', [new Token('address', address3), new Token('address', address4)]);
+        const tokens1 = new Token('array', [tokenAddress1, tokenAddress2]);
+        const tokens2 = new Token('array', [tokenAddress3, tokenAddress4]);
         const dynamic = new Token('array', [tokens1, tokens2]);
         const expected = `${padU32('20')}${padU32('2')}${padU32('80')}${padU32('e0')}${padU32('2')}${encAddress1}${encAddress2}${padU32('2')}${encAddress3}${encAddress4}`;
 
@@ -149,8 +157,8 @@ describe('encoder/encoder', () => {
       });
 
       it('encodes fixed array of fixed array addresses', () => {
-        const tokens1 = new Token('fixedArray', [new Token('address', address1), new Token('address', address2)]);
-        const tokens2 = new Token('fixedArray', [new Token('address', address3), new Token('address', address4)]);
+        const tokens1 = new Token('fixedArray', [tokenAddress1, tokenAddress2]);
+        const tokens2 = new Token('fixedArray', [tokenAddress3, tokenAddress4]);
         const dynamic = new Token('fixedArray', [tokens1, tokens2]);
         const expected = `${encAddress1}${encAddress2}${encAddress3}${encAddress4}`;
 
@@ -159,6 +167,44 @@ describe('encoder/encoder', () => {
     });
 
     describe('bytes', () => {
+      const bytes1 = '1234';
+      const bytes2 = '10000000000000000000000000000000000000000000000000000000000002';
+      const bytes3 = '1000000000000000000000000000000000000000000000000000000000000000';
+
+      it('encodes fixed bytes', () => {
+        const token = new Token('fixedBytes', bytes1);
+
+        expect(coder.encode([token])).to.equal(padFixedBytes(bytes1));
+      });
+
+      it('encodes bytes', () => {
+        const token = new Token('bytes', bytes1);
+
+        expect(coder.encode([token])).to.equal(`${padU32(20)}${padU32(2)}${padFixedBytes(bytes1)}`);
+      });
+
+      it('encodes bytes (short of boundary)', () => {
+        const token = new Token('bytes', bytes2);
+
+        expect(coder.encode([token])).to.equal(`${padU32(20)}${padU32('1f')}${padFixedBytes(bytes2)}`);
+      });
+
+      it('encodes bytes (two blocks)', () => {
+        const input = `${bytes3}${bytes3}`;
+        const token = new Token('bytes', input);
+
+        expect(coder.encode([token])).to.equal(`${padU32(20)}${padU32('40')}${padFixedBytes(input)}`);
+      });
+    });
+
+    describe('string', () => {
+      it('encodes a string', () => {
+        const string = 'gavofyork';
+        const stringEnc = padFixedBytes('6761766f66796f726b');
+        const token = new Token('string', string);
+
+        expect(coder.encode([token])).to.equal(`${padU32('20')}${padU32(string.length.toString(16))}${stringEnc}`);
+      });
     });
   });
 });
