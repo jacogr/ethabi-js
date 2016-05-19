@@ -1,6 +1,6 @@
 import utf8 from 'utf8';
 
-import { padBytes, padFixedBytes, padU32 } from '../util/pad';
+import { padAddress, padBytes, padFixedBytes, padU32 } from '../util/pad';
 import Mediate from './mediate';
 
 export default class Encoder {
@@ -19,12 +19,14 @@ export default class Encoder {
   encodeToken (token) {
     switch (token.type) {
       case 'address':
+        return new Mediate('raw', padAddress(token.value));
+
       case 'int':
       case 'uint':
         return new Mediate('raw', padU32(token.value));
 
       case 'bool':
-        return new Mediate('raw', padU32(token.value ? '1' : '0'));
+        return new Mediate('raw', padU32(token.value ? 1 : 0));
 
       case 'fixedBytes':
         return new Mediate('raw', padFixedBytes(token.value));

@@ -1,4 +1,4 @@
-import BigNumber from 'bignumer.js';
+import BigNumber from 'bignumber.js';
 
 export function asU32 (slice) {
   // TODO: validation
@@ -15,5 +15,5 @@ export function asAddress (slice) {
 export function asBool (slice) {
   // TODO: everything else should be 0
 
-  return slice[63] === '1';
+  return new BigNumber(slice[63]).eq(1);
 }

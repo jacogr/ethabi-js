@@ -1,11 +1,17 @@
+import BigNumber from 'bignumber.js';
+
 const ZERO_64 = '0000000000000000000000000000000000000000000000000000000000000000';
 
-export function padU32 (input) {
+export function padAddress (input) {
   return `${ZERO_64}${input}`.slice(-64);
 }
 
+export function padU32 (input) {
+  return `${ZERO_64}${new BigNumber(input).toString(16)}`.slice(-64);
+}
+
 export function padBytes (input) {
-  return `${padU32((input.length / 2).toString(16))}${padFixedBytes(input)}`;
+  return `${padU32(input.length / 2)}${padFixedBytes(input)}`;
 }
 
 export function padFixedBytes (input) {

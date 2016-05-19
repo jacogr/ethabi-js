@@ -1,13 +1,36 @@
-import { padBytes, padFixedBytes, padU32 } from './pad';
+import BigNumber from 'bignumber.js';
+import { padAddress, padBytes, padFixedBytes, padU32 } from './pad';
 
 describe('util/pad', () => {
   const SHORT15 = '1234567890abcdef';
   const LONG15 = `${SHORT15}000000000000000000000000000000000000000000000000`;
+  const PAD123 = '0000000000000000000000000000000000000000000000000000000000000123';
+
+  describe('padAddress', () => {
+    it('pads to 64 characters', () => {
+      expect(padAddress('123')).to.equal(PAD123);
+    });
+  });
 
   describe('padU32', () => {
     it('left pads length < 64 bytes to 64 bytes', () => {
-      expect(padU32('1')).to.equal('0000000000000000000000000000000000000000000000000000000000000001');
-      expect(padU32('123')).to.equal('0000000000000000000000000000000000000000000000000000000000000123');
+      expect(padU32(1)).to.equal('0000000000000000000000000000000000000000000000000000000000000001');
+    });
+
+    it('pads hex representation', () => {
+      expect(padU32(0x123)).to.equal(PAD123);
+    });
+
+    it('pads decimal representation', () => {
+      expect(padU32(291)).to.equal(PAD123);
+    });
+
+    it('pads string representation', () => {
+      expect(padU32('0x123')).to.equal(PAD123);
+    });
+
+    it('pads BigNumber representation', () => {
+      expect(padU32(new BigNumber(0x123))).to.equal(PAD123);
     });
   });
 
@@ -33,7 +56,7 @@ describe('util/pad', () => {
       const result = padBytes(`${LONG15}${SHORT15}`);
 
       expect(result.length).to.equal(192);
-      expect(result).to.equal(`${padU32((40).toString(16))}${LONG15}${LONG15}`);
+      expect(result).to.equal(`${padU32(0x28)}${LONG15}${LONG15}`);
     });
   });
 });

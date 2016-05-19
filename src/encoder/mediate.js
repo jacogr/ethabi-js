@@ -61,7 +61,7 @@ export default class Mediate {
 
       case 'prefixed':
       case 'array':
-        return padU32(suffixOffset.toString(16));
+        return padU32(suffixOffset);
     }
   }
 
@@ -79,7 +79,7 @@ export default class Mediate {
           .join('');
 
       case 'array':
-        const prefix = padU32(this._value.length.toString(16));
+        const prefix = padU32(this._value.length);
         const inits = this._value
           .map((mediate, idx) => mediate.init(offset + Mediate.offsetFor(this._value, idx) + 32).toString(16))
           .join('');
