@@ -56,8 +56,8 @@ describe('param/ParamType', () => {
       expect((new ParamType('bool', true, 1)).value).to.equal(true);
     });
 
-    it('sets the size of the object', () => {
-      expect((new ParamType('bool', true, 1)).size).to.equal(1);
+    it('sets the length of the object', () => {
+      expect((new ParamType('bool', true, 1)).length).to.equal(1);
     });
   });
 });

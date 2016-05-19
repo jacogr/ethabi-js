@@ -1,12 +1,12 @@
 const TYPES = ['address', 'bytes', 'int', 'uint', 'bool', 'string', 'array', 'fixedBytes', 'fixedArray'];
 
 export default class ParamType {
-  constructor (type, value, size) {
+  constructor (type, value, length) {
     ParamType.validateType(type);
 
     this._type = type;
     this._value = value;
-    this._size = size;
+    this._size = length;
   }
 
   get type () {
@@ -17,8 +17,8 @@ export default class ParamType {
     return this._value;
   }
 
-  get size () {
-    return this._size;
+  get length () {
+    return this._length;
   }
 
   static validateType (type) {
