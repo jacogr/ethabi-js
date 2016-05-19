@@ -2,6 +2,7 @@
   "name": "",
   "version": "",
   "scripts": {
+    "coveralls": "npm run testCoverage && coveralls < coverage/lcov.info",
     "lint": "eslint --ignore-path .gitignore .",
     "testCoverage": "babel-node node_modules/istanbul/lib/cli.js cover _mocha -- 'src/**/*.spec.js'",
     "testOnce": "babel-node node_modules/.bin/_mocha 'src/**/*.spec.js'"
