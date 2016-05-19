@@ -6,6 +6,10 @@ import { asAddress, asBool, asU32 } from '../util/sliceAs';
 
 export default class Decoder {
   decode (params, data) {
+    if (!params || !data) {
+      throw new Error('Invalid inputs to decode');
+    }
+
     const slices = sliceData(data);
     let offset = 0;
 
@@ -17,7 +21,7 @@ export default class Decoder {
   }
 
   peek (slices, position) {
-    if (!slices[position]) {
+    if (!slices || !slices[position]) {
       throw new Error(`Invalid ${position} in slices peek`);
     }
 
