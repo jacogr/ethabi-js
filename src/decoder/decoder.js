@@ -36,34 +36,43 @@ export default class Decoder {
   }
 
   decodeParam (param, slices, offset) {
-    let token;
     let taken;
 
     switch (param.type) {
       case 'address':
-        token = new Token(param.type, asAddress(this.peek(slices, offset)));
-        return new DecodeResult(token, offset + 1);
+        return new DecodeResult(
+          new Token(param.type, asAddress(this.peek(slices, offset))),
+          offset + 1
+        );
 
       case 'bool':
-        token = new Token(param.type, asBool(this.peek(slices, offset)));
-        return new DecodeResult(token, offset + 1);
+        return new DecodeResult(
+          new Token(param.type, asBool(this.peek(slices, offset))),
+          offset + 1
+        );
 
       case 'int':
       case 'uint':
-        token = new Token(param.type, this.peek(slices, offset));
-        return new DecodeResult(token, offset + 1);
+        return new DecodeResult(
+          new Token(param.type, this.peek(slices, offset)),
+          offset + 1
+        );
 
       case 'fixedBytes':
         taken = this.takeBytes(slices, offset, param.length);
-        token = new Token(param.type, taken);
-        return new DecodeResult(token, taken.newOffset);
+        return new DecodeResult(
+          new Token(param.type, taken),
+          taken.newOffset
+        );
 
       case 'bytes':
         const lengthOffset = asU32(this.peek(slices, offset)).div(32);
         const length = asU32(this.peek(slices, lengthOffset));
         taken = this.takeBytes(slices, lengthOffset + 1, length);
-        token = new Token(param.type, taken.bytes);
-        return new DecodeResult(token, offset + 1);
+        return new DecodeResult(
+          new Token(param.type, taken.bytes),
+          offset + 1
+        );
 
       default:
         throw new Error(`Invalid param type ${param.type} in decodeParam`);
