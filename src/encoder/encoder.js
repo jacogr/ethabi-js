@@ -1,6 +1,6 @@
 import utf8 from 'utf8';
 
-import { padBytes, padFixedBytes, padU32 } from './pad';
+import { padBytes, padFixedBytes, padU32 } from '../util/pad';
 import Mediate from './mediate';
 
 export default class Encoder {

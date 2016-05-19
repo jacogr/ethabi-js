@@ -1,6 +1,6 @@
 import { padBytes, padFixedBytes, padU32 } from './pad';
 
-describe('encoder/pad', () => {
+describe('util/pad', () => {
   const SHORT15 = '1234567890abcdef';
   const LONG15 = `${SHORT15}000000000000000000000000000000000000000000000000`;
 

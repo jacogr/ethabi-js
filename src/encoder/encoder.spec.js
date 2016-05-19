@@ -1,6 +1,6 @@
 import Encoder from './encoder';
 import Token from '../token';
-import { padFixedBytes, padU32 } from './pad';
+import { padFixedBytes, padU32 } from '../util/pad';
 
 const coder = new Encoder();
 

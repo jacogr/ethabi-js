@@ -1,6 +1,6 @@
 const TYPES = ['raw', 'prefixed', 'fixedArray', 'array'];
 
-import { padU32 } from './pad';
+import { padU32 } from '../util/pad';
 
 export default class Mediate {
   constructor (type, value) {
