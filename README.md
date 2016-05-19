@@ -29,16 +29,5 @@ A very early, very POC-type port of [https://github.com/ethcore/ethabi](https://
 
 ## todos
 
-Yes, these should be moved to issues :)
-
-### encoder
-
-- be liberal in what you accept, i.e. numbers should allow decimal, hex & strings while bytes should do strings & arrays (only string supported in all cases currently)
-
-### decoder
-
-- do & complete :)
-
-### cli
-
-- complete for full 1-to-1 compatibility with original
+- do & complete decoder
+- complete for full 1-to-1 cli compatibility with original
