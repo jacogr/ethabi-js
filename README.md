@@ -31,11 +31,6 @@ A very early, very POC-type port of [https://github.com/ethcore/ethabi](https://
 
 Yes, these should be moved to issues :)
 
-### ci
-
-- get travis going (just hook it up)
-- get coveralls going (as above)
-
 ### encoder
 
 - be liberal in what you accept, i.e. numbers should allow decimal, hex & strings while bytes should do strings & arrays (only string supported in all cases currently)
