@@ -6,7 +6,7 @@ export default class ParamType {
 
     this._type = type;
     this._value = value;
-    this._size = length;
+    this._length = length;
   }
 
   get type () {
