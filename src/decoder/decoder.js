@@ -2,7 +2,7 @@ import Token from '../token';
 import BytesTaken from './bytesTaken';
 import DecodeResult from './decodeResult';
 import { sliceData } from '../util/slice';
-import { asAddress, asBool } from '../util/sliceAs';
+import { asAddress, asBool, asU32 } from '../util/sliceAs';
 
 export default class Decoder {
   decode (params, data) {
@@ -37,6 +37,7 @@ export default class Decoder {
 
   decodeParam (param, slices, offset) {
     let token;
+    let taken;
 
     switch (param.type) {
       case 'address':
@@ -53,9 +54,16 @@ export default class Decoder {
         return new DecodeResult(token, offset + 1);
 
       case 'fixedBytes':
-        const taken = this.takeBytes(slices, offset, param.length);
+        taken = this.takeBytes(slices, offset, param.length);
         token = new Token(param.type, taken);
         return new DecodeResult(token, taken.newOffset);
+
+      case 'bytes':
+        const lengthOffset = asU32(this.peek(slices, offset)).div(32);
+        const length = asU32(this.peek(slices, lengthOffset));
+        taken = this.takeBytes(slices, lengthOffset + 1, length);
+        token = new Token(param.type, taken.bytes);
+        return new DecodeResult(token, offset + 1);
 
       default:
         throw new Error(`Invalid param type ${param.type} in decodeParam`);
