@@ -18,7 +18,8 @@ describe('decoder/decoder', () => {
   const tokenAddress2 = new Token('address', address2.slice(-40));
   const tokenAddress3 = new Token('address', address3.slice(-40));
   const tokenAddress4 = new Token('address', address4.slice(-40));
-  const tokenBytes1 = new Token('fixedBytes', '1234');
+  const tokenFixedBytes1 = new Token('fixedBytes', '1234');
+  const tokenBytes1 = new Token('bytes', '1234');
   const tokenInt1 = new Token('int', new BigNumber(`0x${int1}`));
   const tokenUint1 = new Token('uint', new BigNumber(`0x${int1}`));
   const slices = [ address1, address2, address3, address4 ];
@@ -93,6 +94,12 @@ describe('decoder/decoder', () => {
     it('decodes fixedBytes', () => {
       expect(
         coder.decodeParam(new ParamType('fixedBytes', null, 2), [bytes1], 0).token
+      ).to.deep.equal(tokenFixedBytes1);
+    });
+
+    it('decodes bytes', () => {
+      expect(
+        coder.decodeParam(new ParamType('bytes'), [padU32(0x20), padU32(2), bytes1], 0).token
       ).to.deep.equal(tokenBytes1);
     });
   });
@@ -186,6 +193,17 @@ describe('decoder/decoder', () => {
           coder.decode(
             [new ParamType('fixedBytes', null, 2)],
             `${bytes1}`
+          )
+        ).to.deep.equal([tokenFixedBytes1]);
+      });
+    });
+
+    describe('bytes', () => {
+      it('decodes bytes', () => {
+        expect(
+          coder.decode(
+            [new ParamType('bytes')],
+            `${padU32(0x20)}${padU32(2)}${bytes1}`
           )
         ).to.deep.equal([tokenBytes1]);
       });
