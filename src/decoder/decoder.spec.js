@@ -13,6 +13,7 @@ describe('decoder/decoder', () => {
   const address3 = '0000000000000000000000003333333333333333333333333333333333333333';
   const address4 = '0000000000000000000000004444444444444444444444444444444444444444';
   const bytes1 = '1234000000000000000000000000000000000000000000000000000000000000';
+  const bytes2 = '1000000000000000000000000000000000000000000000000000000000000000';
   const int1 = '1111111111111111111111111111111111111111111111111111111111111111';
   const tokenAddress1 = new Token('address', address1.slice(-40));
   const tokenAddress2 = new Token('address', address2.slice(-40));
@@ -20,6 +21,7 @@ describe('decoder/decoder', () => {
   const tokenAddress4 = new Token('address', address4.slice(-40));
   const tokenFixedBytes1 = new Token('fixedBytes', '1234');
   const tokenBytes1 = new Token('bytes', '1234');
+  const tokenBytes2 = new Token('bytes', `${bytes2}${bytes2}`);
   const tokenInt1 = new Token('int', new BigNumber(`0x${int1}`));
   const tokenUint1 = new Token('uint', new BigNumber(`0x${int1}`));
   const slices = [ address1, address2, address3, address4 ];
@@ -206,6 +208,15 @@ describe('decoder/decoder', () => {
             `${padU32(0x20)}${padU32(2)}${bytes1}`
           )
         ).to.deep.equal([tokenBytes1]);
+      });
+
+      it('decodes bytes (sequence)', () => {
+        expect(
+          coder.decode(
+            [new ParamType('bytes')],
+            `${padU32(0x20)}${padU32(0x40)}${bytes2}${bytes2}`
+          )
+        ).to.deep.equal([tokenBytes2]);
       });
     });
   });
