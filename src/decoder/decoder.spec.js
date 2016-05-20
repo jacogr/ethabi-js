@@ -1,14 +1,20 @@
+import BigNumber from 'bignumber.js';
+
 import Decoder from './decoder';
 import ParamType from '../param';
 import Token from '../token';
+import { padU32 } from '../util/pad';
 
 const coder = new Decoder();
 
 describe('decoder/decoder', () => {
   const address1 = '0000000000000000000000001111111111111111111111111111111111111111';
   const address2 = '0000000000000000000000002222222222222222222222222222222222222222';
+  const int1 = '1111111111111111111111111111111111111111111111111111111111111111';
   const tokenAddress1 = new Token('address', address1.slice(-40));
   const tokenAddress2 = new Token('address', address2.slice(-40));
+  const tokenInt1 = new Token('int', new BigNumber(`0x${int1}`));
+  const tokenUint1 = new Token('uint', new BigNumber(`0x${int1}`));
   const slices = [
     address1, address2,
     '3333333333333333444444444444444455555555555555556666666666666666',
@@ -65,9 +71,21 @@ describe('decoder/decoder', () => {
     });
 
     it('decodes an address', () => {
-      expect(coder.decodeParam(
-        new ParamType('address'), [address1], 0).token
+      expect(
+        coder.decodeParam(new ParamType('address'), [address1], 0).token
       ).to.deep.equal(tokenAddress1);
+    });
+
+    it('decodes an int', () => {
+      expect(
+        coder.decodeParam(new ParamType('int'), [int1], 0).token
+      ).to.deep.equal(tokenInt1);
+    });
+
+    it('decodes an uint', () => {
+      expect(
+        coder.decodeParam(new ParamType('uint'), [int1], 0).token
+      ).to.deep.equal(tokenUint1);
     });
   });
 
@@ -82,21 +100,39 @@ describe('decoder/decoder', () => {
 
     describe('address', () => {
       it('decodes an address', () => {
-        expect(coder.decode(
-          [new ParamType('address')], `${address1}`)
+        expect(
+          coder.decode(
+            [new ParamType('address')],
+            `${address1}`
+          )
         ).to.deep.equal([tokenAddress1]);
       });
 
       it('decodes 2 addresses', () => {
-        expect(coder.decode(
-          [new ParamType('address'), new ParamType('address')], `${address1}${address2}`)
+        expect(
+          coder.decode(
+            [new ParamType('address'), new ParamType('address')],
+            `${address1}${address2}`
+          )
         ).to.deep.equal([tokenAddress1, tokenAddress2]);
       });
 
       it('decodes a fixedArray of addresses', () => {
-        expect(coder.decode(
-          [new ParamType('fixedArray', new ParamType('address'), 2)], `${address1}${address2}`)
+        expect(
+          coder.decode(
+            [new ParamType('fixedArray', new ParamType('address'), 2)],
+            `${address1}${address2}`
+          )
         ).to.deep.equal([new Token('fixedArray', [tokenAddress1, tokenAddress2])]);
+      });
+
+      it('decodes a dynamic array of addresses', () => {
+        expect(
+          coder.decode(
+            [new ParamType('array', new ParamType('address'))],
+            `${padU32(0x20)}${padU32(2)}${address1}${address2}`
+          )
+        ).to.deep.equal([new Token('array', [tokenAddress1, tokenAddress2])]);
       });
     });
   });

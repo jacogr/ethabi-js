@@ -57,7 +57,7 @@ export default class Decoder {
 
       case 'int':
       case 'uint':
-        return new DecodeResult(new Token(param.type, this.peek(slices, offset)), offset + 1);
+        return new DecodeResult(new Token(param.type, asU32(this.peek(slices, offset))), offset + 1);
 
       case 'fixedBytes':
         taken = this.takeBytes(slices, offset, param.length);
@@ -65,14 +65,14 @@ export default class Decoder {
         return new DecodeResult(new Token(param.type, taken), taken.newOffset);
 
       case 'bytes':
-        lengthOffset = asU32(this.peek(slices, offset)).div(32);
+        lengthOffset = asU32(this.peek(slices, offset)).div(32).toNumber();
         length = asU32(this.peek(slices, lengthOffset)).toNumber();
         taken = this.takeBytes(slices, lengthOffset + 1, length);
 
         return new DecodeResult(new Token(param.type, taken.bytes), offset + 1);
 
       case 'string':
-        lengthOffset = asU32(this.peek(slices, offset)).div(32);
+        lengthOffset = asU32(this.peek(slices, offset)).div(32).toNumber();
         length = asU32(this.peek(slices, lengthOffset)).toNumber();
         taken = this.takeBytes(slices, lengthOffset + 1, length);
 
@@ -84,7 +84,7 @@ export default class Decoder {
         return new DecodeResult(new Token(param.type, utf8.decode(str)), offset + 1);
 
       case 'array':
-        lengthOffset = asU32(this.peek(slices, offset)).div(32);
+        lengthOffset = asU32(this.peek(slices, offset)).div(32).toNumber();
         length = asU32(this.peek(slices, lengthOffset)).toNumber();
         newOffset = lengthOffset + 1;
 
