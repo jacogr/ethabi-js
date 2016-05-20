@@ -10,16 +10,16 @@ const coder = new Decoder();
 describe('decoder/decoder', () => {
   const address1 = '0000000000000000000000001111111111111111111111111111111111111111';
   const address2 = '0000000000000000000000002222222222222222222222222222222222222222';
+  const address3 = '0000000000000000000000003333333333333333333333333333333333333333';
+  const address4 = '0000000000000000000000004444444444444444444444444444444444444444';
   const int1 = '1111111111111111111111111111111111111111111111111111111111111111';
   const tokenAddress1 = new Token('address', address1.slice(-40));
   const tokenAddress2 = new Token('address', address2.slice(-40));
+  const tokenAddress3 = new Token('address', address3.slice(-40));
+  const tokenAddress4 = new Token('address', address4.slice(-40));
   const tokenInt1 = new Token('int', new BigNumber(`0x${int1}`));
   const tokenUint1 = new Token('uint', new BigNumber(`0x${int1}`));
-  const slices = [
-    address1, address2,
-    '3333333333333333444444444444444455555555555555556666666666666666',
-    '4444444444444444555555555555555566666666666666667777777777777777'
-  ];
+  const slices = [ address1, address2, address3, address4 ];
 
   describe('peek', () => {
     it('returns the slice at the correct position', () => {
@@ -133,6 +133,20 @@ describe('decoder/decoder', () => {
             `${padU32(0x20)}${padU32(2)}${address1}${address2}`
           )
         ).to.deep.equal([new Token('array', [tokenAddress1, tokenAddress2])]);
+      });
+
+      it('decodes a dynamic array of fixed arrays', () => {
+        expect(
+          coder.decode(
+            [new ParamType('array', new ParamType('fixedArray', new ParamType('address'), 2))],
+            `${padU32(0x20)}${padU32(2)}${address1}${address2}${address3}${address4}`
+          )
+        ).to.deep.equal([
+          new Token('array', [
+            new Token('fixedArray', [tokenAddress1, tokenAddress2]),
+            new Token('fixedArray', [tokenAddress3, tokenAddress4])
+          ])
+        ]);
       });
     });
   });
