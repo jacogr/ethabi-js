@@ -12,11 +12,13 @@ describe('decoder/decoder', () => {
   const address2 = '0000000000000000000000002222222222222222222222222222222222222222';
   const address3 = '0000000000000000000000003333333333333333333333333333333333333333';
   const address4 = '0000000000000000000000004444444444444444444444444444444444444444';
+  const bytes1 = '1234000000000000000000000000000000000000000000000000000000000000';
   const int1 = '1111111111111111111111111111111111111111111111111111111111111111';
   const tokenAddress1 = new Token('address', address1.slice(-40));
   const tokenAddress2 = new Token('address', address2.slice(-40));
   const tokenAddress3 = new Token('address', address3.slice(-40));
   const tokenAddress4 = new Token('address', address4.slice(-40));
+  const tokenBytes1 = new Token('fixedBytes', '1234');
   const tokenInt1 = new Token('int', new BigNumber(`0x${int1}`));
   const tokenUint1 = new Token('uint', new BigNumber(`0x${int1}`));
   const slices = [ address1, address2, address3, address4 ];
@@ -87,6 +89,12 @@ describe('decoder/decoder', () => {
         coder.decodeParam(new ParamType('uint'), [int1], 0).token
       ).to.deep.equal(tokenUint1);
     });
+
+    it('decodes fixedBytes', () => {
+      expect(
+        coder.decodeParam(new ParamType('fixedBytes', null, 2), [bytes1], 0).token
+      ).to.deep.equal(tokenBytes1);
+    });
   });
 
   describe('decode', () => {
@@ -147,6 +155,39 @@ describe('decoder/decoder', () => {
             new Token('fixedArray', [tokenAddress3, tokenAddress4])
           ])
         ]);
+      });
+    });
+
+    describe('int', () => {
+      it('decodes an int', () => {
+        expect(
+          coder.decode(
+            [new ParamType('int')],
+            `${int1}`
+          )
+        ).to.deep.equal([tokenInt1]);
+      });
+    });
+
+    describe('uint', () => {
+      it('decodes an uint', () => {
+        expect(
+          coder.decode(
+            [new ParamType('uint')],
+            `${int1}`
+          )
+        ).to.deep.equal([tokenUint1]);
+      });
+    });
+
+    describe('fixedBytes', () => {
+      it('decodes fixedBytes', () => {
+        expect(
+          coder.decode(
+            [new ParamType('fixedBytes', null, 2)],
+            `${bytes1}`
+          )
+        ).to.deep.equal([tokenBytes1]);
       });
     });
   });

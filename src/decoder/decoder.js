@@ -62,7 +62,7 @@ export default class Decoder {
       case 'fixedBytes':
         taken = this.takeBytes(slices, offset, param.length);
 
-        return new DecodeResult(new Token(param.type, taken), taken.newOffset);
+        return new DecodeResult(new Token(param.type, taken.bytes), taken.newOffset);
 
       case 'bytes':
         lengthOffset = asU32(this.peek(slices, offset)).div(32).toNumber();
