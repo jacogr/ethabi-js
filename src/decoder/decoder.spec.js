@@ -1,11 +1,16 @@
 import Decoder from './decoder';
+import ParamType from '../param';
+import Token from '../token';
 
 const coder = new Decoder();
 
 describe('decoder/decoder', () => {
+  const address1 = '0000000000000000000000001111111111111111111111111111111111111111';
+  const address2 = '0000000000000000000000002222222222222222222222222222222222222222';
+  const tokenAddress1 = new Token('address', address1.slice(-40));
+  const tokenAddress2 = new Token('address', address2.slice(-40));
   const slices = [
-    '1111111111111111222222222222222233333333333333334444444444444444',
-    '2222222222222222333333333333333344444444444444445555555555555555',
+    address1, address2,
     '3333333333333333444444444444444455555555555555556666666666666666',
     '4444444444444444555555555555555566666666666666667777777777777777'
   ];
@@ -58,6 +63,12 @@ describe('decoder/decoder', () => {
     it('throws an error on invalid param type', () => {
       expect(() => coder.decodeParam({ type: 'noMatch' })).to.throw(/noMatch/);
     });
+
+    it('decodes an address', () => {
+      expect(coder.decodeParam(
+        new ParamType('address'), [address1], 0).token
+      ).to.deep.equal(tokenAddress1);
+    });
   });
 
   describe('decode', () => {
@@ -67,6 +78,26 @@ describe('decoder/decoder', () => {
 
     it('throws an error on invalid data', () => {
       expect(() => coder.decode([], null)).to.throw(/Invalid/);
+    });
+
+    describe('address', () => {
+      it('decodes an address', () => {
+        expect(coder.decode(
+          [new ParamType('address')], `${address1}`)
+        ).to.deep.equal([tokenAddress1]);
+      });
+
+      it('decodes 2 addresses', () => {
+        expect(coder.decode(
+          [new ParamType('address'), new ParamType('address')], `${address1}${address2}`)
+        ).to.deep.equal([tokenAddress1, tokenAddress2]);
+      });
+
+      it('decodes a fixedArray of addresses', () => {
+        expect(coder.decode(
+          [new ParamType('fixedArray', new ParamType('address'), 2)], `${address1}${address2}`)
+        ).to.deep.equal([new Token('fixedArray', [tokenAddress1, tokenAddress2])]);
+      });
     });
   });
 });
