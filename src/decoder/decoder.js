@@ -24,14 +24,14 @@ export default class Decoder {
 
   peek (slices, position) {
     if (!slices || !slices[position]) {
-      throw new Error(`Invalid ${position} in slices peek`);
+      throw new Error(`Invalid position ${position} in slices peek`);
     }
 
     return slices[position];
   }
 
   takeBytes (slices, position, length) {
-    const slicesLength = (length + 63) / 64;
+    const slicesLength = Math.floor((length + 31) / 32);
     let bytes = '';
 
     for (let idx = 0; idx < slicesLength; idx++) {
@@ -42,9 +42,11 @@ export default class Decoder {
   }
 
   decodeParam (param, slices, offset) {
+    const tokens = [];
     let taken;
     let lengthOffset;
     let length;
+    let newOffset;
 
     switch (param.type) {
       case 'address':
@@ -59,23 +61,51 @@ export default class Decoder {
 
       case 'fixedBytes':
         taken = this.takeBytes(slices, offset, param.length);
+
         return new DecodeResult(new Token(param.type, taken), taken.newOffset);
 
       case 'bytes':
         lengthOffset = asU32(this.peek(slices, offset)).div(32);
-        length = asU32(this.peek(slices, lengthOffset));
+        length = asU32(this.peek(slices, lengthOffset)).toNumber();
         taken = this.takeBytes(slices, lengthOffset + 1, length);
+
         return new DecodeResult(new Token(param.type, taken.bytes), offset + 1);
 
       case 'string':
         lengthOffset = asU32(this.peek(slices, offset)).div(32);
-        length = asU32(this.peek(slices, lengthOffset));
+        length = asU32(this.peek(slices, lengthOffset)).toNumber();
         taken = this.takeBytes(slices, lengthOffset + 1, length);
+
         const str = taken.bytes
           .match(/.{1,2}/)
           .map((code) => String.fromCharCode(`0x${code}`))
           .join('');
+
         return new DecodeResult(new Token(param.type, utf8.decode(str)), offset + 1);
+
+      case 'array':
+        lengthOffset = asU32(this.peek(slices, offset)).div(32);
+        length = asU32(this.peek(slices, lengthOffset)).toNumber();
+        newOffset = lengthOffset + 1;
+
+        for (let idx = 0; idx < length; idx++) {
+          const result = this.decodeParam(param.value, slices, newOffset);
+          newOffset = result.newOffset;
+          tokens.push(result.token);
+        }
+
+        return new DecodeResult(new Token(param.type, tokens), offset + 1);
+
+      case 'fixedArray':
+        newOffset = offset;
+
+        for (let idx = 0; idx < param.length; idx++) {
+          const result = this.decodeParam(param.value, slices, newOffset);
+          newOffset = result.newOffset;
+          tokens.push(result.token);
+        }
+
+        return new DecodeResult(new Token(param.type, tokens), newOffset);
 
       default:
         throw new Error(`Invalid param type ${param.type} in decodeParam`);
