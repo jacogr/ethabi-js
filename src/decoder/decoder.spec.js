@@ -3,36 +3,38 @@ import Decoder from './decoder';
 const coder = new Decoder();
 
 describe('decoder/decoder', () => {
-  describe('peek', () => {
-    const SLICES = ['123', '456', '789'];
+  const slices = [
+    '1111111111111111222222222222222233333333333333334444444444444444',
+    '2222222222222222333333333333333344444444444444445555555555555555',
+    '3333333333333333444444444444444455555555555555556666666666666666',
+    '4444444444444444555555555555555566666666666666667777777777777777'
+  ];
 
+  describe('peek', () => {
     it('returns the slice at the correct position', () => {
-      expect(coder.peek(SLICES, 1)).to.equal('456');
+      expect(coder.peek(slices, 1)).to.equal(slices[1]);
     });
 
     it('throws an error if the position is < 0', () => {
-      expect(() => coder.peek(SLICES, -1)).to.throw(/Invalid/);
+      expect(() => coder.peek(slices, -1)).to.throw(/Invalid/);
     });
 
     it('throws an error if the position is >= length', () => {
-      expect(() => coder.peek(SLICES, 3)).to.throw(/Invalid/);
+      expect(() => coder.peek(slices, 4)).to.throw(/Invalid/);
     });
 
     it('throws an error on invalid slices', () => {
-      expect(() => coder.peek(null, 3)).to.throw(/Invalid/);
+      expect(() => coder.peek(null, 4)).to.throw(/Invalid/);
     });
   });
 
   describe('takeBytes', () => {
-    const slices = [
-      '1111111111111111222222222222222233333333333333334444444444444444',
-      '2222222222222222333333333333333344444444444444445555555555555555',
-      '3333333333333333444444444444444455555555555555556666666666666666',
-      '4444444444444444555555555555555566666666666666667777777777777777'
-    ];
-
     it('returns a single slice', () => {
       expect(coder.takeBytes(slices, 0, 32).bytes).to.equal(slices[0]);
+    });
+
+    it('returns a single partial slice', () => {
+      expect(coder.takeBytes(slices, 0, 20).bytes).to.equal(slices[0].substr(0, 40));
     });
 
     it('returns multiple slices', () => {
