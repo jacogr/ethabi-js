@@ -14,6 +14,8 @@ describe('decoder/decoder', () => {
   const address4 = '0000000000000000000000004444444444444444444444444444444444444444';
   const bytes1 = '1234000000000000000000000000000000000000000000000000000000000000';
   const bytes2 = '1000000000000000000000000000000000000000000000000000000000000000';
+  const bytes3 = '10000000000000000000000000000000000000000000000000000000000002';
+  const bytes4 = '0010000000000000000000000000000000000000000000000000000000000002';
   const int1 = '1111111111111111111111111111111111111111111111111111111111111111';
   const tokenAddress1 = new Token('address', address1.slice(-40));
   const tokenAddress2 = new Token('address', address2.slice(-40));
@@ -22,6 +24,8 @@ describe('decoder/decoder', () => {
   const tokenFixedBytes1 = new Token('fixedBytes', '1234');
   const tokenBytes1 = new Token('bytes', '1234');
   const tokenBytes2 = new Token('bytes', `${bytes2}${bytes2}`);
+  const tokenBytes3 = new Token('bytes', bytes3);
+  const tokenBytes4 = new Token('bytes', bytes4);
   const tokenInt1 = new Token('int', new BigNumber(`0x${int1}`));
   const tokenUint1 = new Token('uint', new BigNumber(`0x${int1}`));
   const slices = [ address1, address2, address3, address4 ];
@@ -210,7 +214,7 @@ describe('decoder/decoder', () => {
         ).to.deep.equal([tokenBytes1]);
       });
 
-      it('decodes bytes (sequence)', () => {
+      it('decodes bytes sequence', () => {
         expect(
           coder.decode(
             [new ParamType('bytes')],
@@ -218,6 +222,23 @@ describe('decoder/decoder', () => {
           )
         ).to.deep.equal([tokenBytes2]);
       });
+
+      it('decodes bytes seuence (2)', () => {
+        expect(
+          coder.decode(
+            [new ParamType('bytes'), new ParamType('bytes')],
+            `${padU32(0x40)}${padU32(0x80)}${padU32(0x1f)}${bytes3}00${padU32(0x20)}${bytes4}`
+          )
+        ).to.deep.equal([tokenBytes3, tokenBytes4]);
+      });
+    });
+
+    describe('bool', () => {
+
+    });
+
+    describe('string', () => {
+
     });
   });
 });
