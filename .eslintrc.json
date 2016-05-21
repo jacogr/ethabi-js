@@ -1,14 +1,11 @@
 {
   "extends": ["semistandard"],
   "parser": "babel-eslint",
+  "env": {
+    "mocha": true,
+    "node": true
+  },
   "globals": {
-    "after": true,
-    "afterEach": true,
-    "before": true,
-    "beforeEach": true,
-    "context": true,
-    "describe": true,
-    "expect": true,
-    "it": true
+    "expect": true
   }
 }
