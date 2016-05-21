@@ -8,6 +8,10 @@ import { padU32 } from '../util/pad';
 const coder = new Decoder();
 
 describe('decoder/decoder', () => {
+  const stringToBytes = function (str) {
+    return str.match(/.{1,2}/g).map((code) => parseInt(code, 16));
+  };
+
   const address1 = '0000000000000000000000001111111111111111111111111111111111111111';
   const address2 = '0000000000000000000000002222222222222222222222222222222222222222';
   const address3 = '0000000000000000000000003333333333333333333333333333333333333333';
@@ -24,11 +28,11 @@ describe('decoder/decoder', () => {
   const tokenAddress3 = new Token('address', address3.slice(-40));
   const tokenAddress4 = new Token('address', address4.slice(-40));
   const tokenBool1 = new Token('bool', true);
-  const tokenFixedBytes1 = new Token('fixedBytes', '1234');
-  const tokenBytes1 = new Token('bytes', '1234');
-  const tokenBytes2 = new Token('bytes', `${bytes2}${bytes2}`);
-  const tokenBytes3 = new Token('bytes', bytes3);
-  const tokenBytes4 = new Token('bytes', bytes4);
+  const tokenFixedBytes1 = new Token('fixedBytes', [0x12, 0x34]);
+  const tokenBytes1 = new Token('bytes', [0x12, 0x34]);
+  const tokenBytes2 = new Token('bytes', stringToBytes(bytes2).concat(stringToBytes(bytes2)));
+  const tokenBytes3 = new Token('bytes', stringToBytes(bytes3));
+  const tokenBytes4 = new Token('bytes', stringToBytes(bytes4));
   const tokenInt1 = new Token('int', new BigNumber(`0x${int1}`));
   const tokenUint1 = new Token('uint', new BigNumber(`0x${int1}`));
   const tokenString1 = new Token('string', 'gavofyork');
@@ -54,27 +58,29 @@ describe('decoder/decoder', () => {
 
   describe('takeBytes', () => {
     it('returns a single slice', () => {
-      expect(coder.takeBytes(slices, 0, 32).bytes).to.equal(slices[0]);
+      expect(coder.takeBytes(slices, 0, 32).bytes).to.deep.equal(stringToBytes(slices[0]));
     });
 
     it('returns a single partial slice', () => {
-      expect(coder.takeBytes(slices, 0, 20).bytes).to.equal(slices[0].substr(0, 40));
+      expect(coder.takeBytes(slices, 0, 20).bytes).to.deep.equal(stringToBytes(slices[0].substr(0, 40)));
     });
 
     it('returns multiple slices', () => {
-      expect(coder.takeBytes(slices, 0, 64).bytes).to.equal(`${slices[0]}${slices[1]}`);
+      expect(coder.takeBytes(slices, 0, 64).bytes).to.deep.equal(stringToBytes(`${slices[0]}${slices[1]}`));
     });
 
     it('returns a single offset slice', () => {
-      expect(coder.takeBytes(slices, 1, 32).bytes).to.equal(slices[1]);
+      expect(coder.takeBytes(slices, 1, 32).bytes).to.deep.equal(stringToBytes(slices[1]));
     });
 
     it('returns multiple offset slices', () => {
-      expect(coder.takeBytes(slices, 1, 64).bytes).to.equal(`${slices[1]}${slices[2]}`);
+      expect(coder.takeBytes(slices, 1, 64).bytes).to.deep.equal(stringToBytes(`${slices[1]}${slices[2]}`));
     });
 
     it('returns the requires length from slices', () => {
-      expect(coder.takeBytes(slices, 1, 75).bytes).to.equal(`${slices[1]}${slices[2]}${slices[3]}`.substr(0, 150));
+      expect(
+        coder.takeBytes(slices, 1, 75).bytes
+      ).to.deep.equal(stringToBytes(`${slices[1]}${slices[2]}${slices[3]}`.substr(0, 150)));
     });
   });
 

@@ -32,13 +32,15 @@ export default class Decoder {
 
   takeBytes (slices, position, length) {
     const slicesLength = Math.floor((length + 31) / 32);
-    let bytes = '';
+    let bytesStr = '';
 
     for (let idx = 0; idx < slicesLength; idx++) {
-      bytes = `${bytes}${this.peek(slices, position + idx)}`;
+      bytesStr = `${bytesStr}${this.peek(slices, position + idx)}`;
     }
 
-    return new BytesTaken(bytes.substr(0, length * 2), position + slicesLength);
+    const bytes = bytesStr.substr(0, length * 2).match(/.{1,2}/g).map((code) => parseInt(code, 16));
+
+    return new BytesTaken(bytes, position + slicesLength);
   }
 
   decodeParam (param, slices, offset) {
@@ -76,10 +78,7 @@ export default class Decoder {
         length = asU32(this.peek(slices, lengthOffset)).toNumber();
         taken = this.takeBytes(slices, lengthOffset + 1, length);
 
-        const str = taken.bytes
-          .match(/.{1,2}/g)
-          .map((code) => String.fromCharCode(`0x${code}`))
-          .join('');
+        const str = taken.bytes.map((code) => String.fromCharCode(code)).join('');
 
         return new DecodeResult(new Token(param.type, utf8.decode(str)), offset + 1);
 
