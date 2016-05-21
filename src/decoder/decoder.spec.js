@@ -12,6 +12,7 @@ describe('decoder/decoder', () => {
   const address2 = '0000000000000000000000002222222222222222222222222222222222222222';
   const address3 = '0000000000000000000000003333333333333333333333333333333333333333';
   const address4 = '0000000000000000000000004444444444444444444444444444444444444444';
+  const bool1 = '0000000000000000000000000000000000000000000000000000000000000001';
   const bytes1 = '1234000000000000000000000000000000000000000000000000000000000000';
   const bytes2 = '1000000000000000000000000000000000000000000000000000000000000000';
   const bytes3 = '10000000000000000000000000000000000000000000000000000000000002';
@@ -21,6 +22,7 @@ describe('decoder/decoder', () => {
   const tokenAddress2 = new Token('address', address2.slice(-40));
   const tokenAddress3 = new Token('address', address3.slice(-40));
   const tokenAddress4 = new Token('address', address4.slice(-40));
+  const tokenBool1 = new Token('bool', true);
   const tokenFixedBytes1 = new Token('fixedBytes', '1234');
   const tokenBytes1 = new Token('bytes', '1234');
   const tokenBytes2 = new Token('bytes', `${bytes2}${bytes2}`);
@@ -83,6 +85,12 @@ describe('decoder/decoder', () => {
       expect(
         coder.decodeParam(new ParamType('address'), [address1], 0).token
       ).to.deep.equal(tokenAddress1);
+    });
+
+    it('decodes a bool', () => {
+      expect(
+        coder.decodeParam(new ParamType('bool'), [bool1], 0).token
+      ).to.deep.equal(tokenBool1);
     });
 
     it('decodes an int', () => {
@@ -234,7 +242,14 @@ describe('decoder/decoder', () => {
     });
 
     describe('bool', () => {
-
+      it('decodes a single bool', () => {
+        expect(
+          coder.decode(
+            [new ParamType('bool')],
+            bool1
+          )
+        ).to.deep.equal([tokenBool1]);
+      });
     });
 
     describe('string', () => {
