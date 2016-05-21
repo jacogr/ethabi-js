@@ -77,7 +77,7 @@ export default class Decoder {
         taken = this.takeBytes(slices, lengthOffset + 1, length);
 
         const str = taken.bytes
-          .match(/.{1,2}/)
+          .match(/.{1,2}/g)
           .map((code) => String.fromCharCode(`0x${code}`))
           .join('');
 

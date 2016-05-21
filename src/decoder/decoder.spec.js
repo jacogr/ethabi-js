@@ -18,6 +18,7 @@ describe('decoder/decoder', () => {
   const bytes3 = '10000000000000000000000000000000000000000000000000000000000002';
   const bytes4 = '0010000000000000000000000000000000000000000000000000000000000002';
   const int1 = '1111111111111111111111111111111111111111111111111111111111111111';
+  const string1 = '6761766f66796f726b0000000000000000000000000000000000000000000000';
   const tokenAddress1 = new Token('address', address1.slice(-40));
   const tokenAddress2 = new Token('address', address2.slice(-40));
   const tokenAddress3 = new Token('address', address3.slice(-40));
@@ -30,6 +31,7 @@ describe('decoder/decoder', () => {
   const tokenBytes4 = new Token('bytes', bytes4);
   const tokenInt1 = new Token('int', new BigNumber(`0x${int1}`));
   const tokenUint1 = new Token('uint', new BigNumber(`0x${int1}`));
+  const tokenString1 = new Token('string', 'gavofyork');
   const slices = [ address1, address2, address3, address4 ];
 
   describe('peek', () => {
@@ -115,6 +117,12 @@ describe('decoder/decoder', () => {
       expect(
         coder.decodeParam(new ParamType('bytes'), [padU32(0x20), padU32(2), bytes1], 0).token
       ).to.deep.equal(tokenBytes1);
+    });
+
+    it('decodes string', () => {
+      expect(
+        coder.decodeParam(new ParamType('string'), [padU32(0x20), padU32(9), string1], 0).token
+      ).to.deep.equal(tokenString1);
     });
   });
 
@@ -253,7 +261,14 @@ describe('decoder/decoder', () => {
     });
 
     describe('string', () => {
-
+      it('decodes a string', () => {
+        expect(
+          coder.decode(
+            [new ParamType('string')],
+            `${padU32(0x20)}${padU32(9)}${string1}`
+          )
+        ).to.deep.equal([tokenString1]);
+      });
     });
   });
 });
