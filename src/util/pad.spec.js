@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { padAddress, padBytes, padFixedBytes, padU32 } from './pad';
+import { padAddress, padBool, padBytes, padFixedBytes, padU32 } from './pad';
 
 describe('util/pad', () => {
   const SHORT15 = '1234567890abcdef';
@@ -9,6 +9,19 @@ describe('util/pad', () => {
   describe('padAddress', () => {
     it('pads to 64 characters', () => {
       expect(padAddress('123')).to.equal(PAD123);
+    });
+  });
+
+  describe('padBool', () => {
+    const TRUE = '0000000000000000000000000000000000000000000000000000000000000001';
+    const FALSE = '0000000000000000000000000000000000000000000000000000000000000000';
+
+    it('pads true to 64 characters', () => {
+      expect(padBool(true)).to.equal(TRUE);
+    });
+
+    it('pads false to 64 characters', () => {
+      expect(padBool(false)).to.equal(FALSE);
     });
   });
 

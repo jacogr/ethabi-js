@@ -6,6 +6,10 @@ export function padAddress (input) {
   return `${ZERO_64}${input}`.slice(-64);
 }
 
+export function padBool (input) {
+  return `${ZERO_64}${input ? '1' : '0'}`.slice(-64);
+}
+
 export function padU32 (input) {
   return `${ZERO_64}${new BigNumber(input).toString(16)}`.slice(-64);
 }
