@@ -1,6 +1,4 @@
-import utf8 from 'utf8';
-
-import { padAddress, padBool, padBytes, padFixedBytes, padU32 } from '../util/pad';
+import { padAddress, padBool, padBytes, padFixedBytes, padU32, padString } from '../util/pad';
 import Mediate from './mediate';
 
 export default class Encoder {
@@ -35,11 +33,7 @@ export default class Encoder {
         return new Mediate('prefixed', padBytes(token.value));
 
       case 'string':
-        const bytes = utf8.encode(token.value)
-          .split('')
-          .map((char) => char.charCodeAt(0).toString(16))
-          .join('');
-        return new Mediate('prefixed', padBytes(bytes));
+        return new Mediate('prefixed', padString(token.value));
 
       case 'fixedArray':
       case 'array':

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { padAddress, padBool, padBytes, padFixedBytes, padU32 } from './pad';
+import { padAddress, padBool, padBytes, padFixedBytes, padString, padU32 } from './pad';
 
 describe('util/pad', () => {
   const SHORT15 = '1234567890abcdef';
@@ -70,6 +70,15 @@ describe('util/pad', () => {
 
       expect(result.length).to.equal(192);
       expect(result).to.equal(`${padU32(0x28)}${LONG15}${LONG15}`);
+    });
+  });
+
+  describe('padString', () => {
+    it('correctly converts & pads strings', () => {
+      const result = padString('gavofyork');
+
+      expect(result.length).to.equal(128);
+      expect(result).to.equal(padBytes('6761766f66796f726b'));
     });
   });
 });

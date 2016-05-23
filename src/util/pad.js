@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import utf8 from 'utf8';
 
 const ZERO_64 = '0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -22,4 +23,13 @@ export function padFixedBytes (input) {
   const max = Math.floor((`${input}`.length + 63) / 64) * 64;
 
   return `${input}${ZERO_64}`.substr(0, max);
+}
+
+export function padString (input) {
+  const encoded = utf8.encode(input)
+    .split('')
+    .map((char) => char.charCodeAt(0).toString(16))
+    .join('');
+
+  return padBytes(encoded);
 }
