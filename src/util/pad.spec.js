@@ -3,6 +3,7 @@ import { padAddress, padBool, padBytes, padFixedBytes, padString, padU32 } from 
 
 describe('util/pad', () => {
   const SHORT15 = '1234567890abcdef';
+  const BYTES15 = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef];
   const LONG15 = `${SHORT15}000000000000000000000000000000000000000000000000`;
   const PAD123 = '0000000000000000000000000000000000000000000000000000000000000123';
 
@@ -48,8 +49,12 @@ describe('util/pad', () => {
   });
 
   describe('padFixedBytes', () => {
-    it('right pads length < 64 bytes to 64 bytes', () => {
+    it('right pads length < 64 bytes to 64 bytes (string)', () => {
       expect(padFixedBytes(SHORT15)).to.equal(LONG15);
+    });
+
+    it('right pads length < 64 bytes to 64 bytes (array)', () => {
+      expect(padFixedBytes(BYTES15)).to.equal(LONG15);
     });
 
     it('right pads length > 64 bytes (64 byte multiples)', () => {
@@ -58,8 +63,15 @@ describe('util/pad', () => {
   });
 
   describe('padBytes', () => {
-    it('right pads length < 64, adding the length', () => {
+    it('right pads length < 64, adding the length (string)', () => {
       const result = padBytes(SHORT15);
+
+      expect(result.length).to.equal(128);
+      expect(result).to.equal(`${padU32(8)}${LONG15}`);
+    });
+
+    it('right pads length < 64, adding the length (array)', () => {
+      const result = padBytes(BYTES15);
 
       expect(result.length).to.equal(128);
       expect(result).to.equal(`${padU32(8)}${LONG15}`);
