@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 
 import Decoder from './decoder';
-import ParamType from '../param';
+import ParamType from '../spec/paramType';
 import Token from '../token';
 import { padU32 } from '../util/pad';
 
