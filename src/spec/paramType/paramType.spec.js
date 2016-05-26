@@ -1,6 +1,6 @@
 import ParamType from './paramType';
 
-describe('spec/ParamType', () => {
+describe('spec/paramType/ParamType', () => {
   describe('validateType', () => {
     it('validates address', () => {
       expect(ParamType.validateType('address')).to.be.true;
