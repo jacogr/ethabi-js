@@ -4,7 +4,7 @@ import { padAddress, padFixedBytes, padU32 } from '../util/pad';
 
 const coder = new Encoder();
 
-describe('encoder/encoder', () => {
+describe('encoder/Encoder', () => {
   describe('encodeToken', () => {
     it('encodes address tokens in Mediate(raw)', () => {
       const mediate = coder.encodeToken(new Token('address', '123'));
