@@ -1,7 +1,9 @@
+import ParamType from './paramType';
+
 export default class Param {
-  constructor (name, kind) {
+  constructor (name, type) {
     this._name = name;
-    this._kind = kind;
+    this._kind = Param.toParamType(type);
   }
 
   get name () {
@@ -10,5 +12,42 @@ export default class Param {
 
   get kind () {
     return this._kind;
+  }
+
+  static toParamType (type) {
+    if (type[type.length - 1] === ']') {
+      const last = type.lastIndexOf('[');
+      const length = type.substr(last + 1, type.length - last - 2);
+      const subtype = Param.toParamType(type.substr(0, last));
+
+      if (length.length === 0) {
+        return new ParamType('array', subtype);
+      }
+
+      return new ParamType('fixedArray', subtype, parseInt(length, 10));
+    }
+
+    switch (type) {
+      case 'address':
+      case 'bool':
+      case 'bytes':
+      case 'string':
+        return new ParamType(type);
+
+      case 'int':
+      case 'uint':
+        return new ParamType(type, null, 256);
+
+      default:
+        if (type.indexOf('uint') === 0) {
+          return new ParamType('uint', null, parseInt(type.substr(4), 10));
+        } else if (type.indexOf('int') === 0) {
+          return new ParamType('int', null, parseInt(type.substr(3), 10));
+        } else if (type.indexOf('bytes') === 0) {
+          return new ParamType('fixedBytes', null, parseInt(type.substr(5), 10));
+        }
+
+        throw new Error(`Cannot convert ${type} to valid ParamType`);
+    }
   }
 }
