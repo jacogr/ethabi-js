@@ -1,14 +1,14 @@
 import Func from './function';
-import ParamType from './paramType';
+import Param from './param';
 import Token from '../token';
 
 describe('spec/Function', () => {
-  const uint256 = new ParamType('uint', null, 256);
-  const bool = new ParamType('bool');
-  const string = new ParamType('string');
+  const uint = new Param('output', 'uint');
+  const bool = new Param('boolin', 'bool');
+  const string = new Param('stringin', 'string');
 
-  const inputs = [{ kind: bool }, { kind: string }];
-  const outputs = [{ kind: uint256 }];
+  const inputs = [bool, string];
+  const outputs = [uint];
   const func = new Func('test', inputs, outputs);
 
   describe('constructor', () => {
@@ -21,13 +21,13 @@ describe('spec/Function', () => {
 
   describe('inputParamTypes', () => {
     it('retrieves the input types as received', () => {
-      expect(func.inputParamTypes()).to.deep.equal([bool, string]);
+      expect(func.inputParamTypes()).to.deep.equal([bool.kind, string.kind]);
     });
   });
 
   describe('outputParamTypes', () => {
     it('retrieves the output types as received', () => {
-      expect(func.outputParamTypes()).to.deep.equal([uint256]);
+      expect(func.outputParamTypes()).to.deep.equal([uint.kind]);
     });
   });
 

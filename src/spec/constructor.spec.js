@@ -1,12 +1,12 @@
 import Constructor from './constructor';
-import ParamType from './paramType';
+import Param from './param';
 import Token from '../token';
 
 describe('spec/Constructor', () => {
-  const bool = new ParamType('bool');
-  const string = new ParamType('string');
+  const bool = new Param('boolin', 'bool');
+  const string = new Param('stringin', 'string');
 
-  const inputs = [{ kind: bool }, { kind: string }];
+  const inputs = [bool, string];
   const cr = new Constructor(inputs);
 
   describe('constructor', () => {
@@ -17,7 +17,7 @@ describe('spec/Constructor', () => {
 
   describe('inputParamTypes', () => {
     it('retrieves the input types as received', () => {
-      expect(cr.inputParamTypes()).to.deep.equal([bool, string]);
+      expect(cr.inputParamTypes()).to.deep.equal([bool.kind, string.kind]);
     });
   });
 
