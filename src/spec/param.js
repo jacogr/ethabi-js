@@ -13,4 +13,8 @@ export default class Param {
   get kind () {
     return this._kind;
   }
+
+  static toParams (params) {
+    return params.map((param) => new Param(param.name, param.type));
+  }
 }

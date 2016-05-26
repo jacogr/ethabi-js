@@ -1,7 +1,7 @@
 import Event from './event';
 
 describe('spec/Event', () => {
-  const inputs = [{ name: 'a', kind: 'bool' }, { name: 'b', kind: 'uint', indexed: true }];
+  const inputs = [{ name: 'a', kind: 'bool', indexed: false }, { name: 'b', kind: 'uint', indexed: true }];
   const event = new Event('test', inputs, true);
 
   describe('constructor', () => {

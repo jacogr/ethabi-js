@@ -9,4 +9,14 @@ describe('spec/param', () => {
       expect(param.kind.type).to.equal('uint');
     });
   });
+
+  describe('toParams', () => {
+    it('maps an array of params', () => {
+      const params = Param.toParams([{ name: 'foo', type: 'uint' }]);
+
+      expect(params.length).to.equal(1);
+      expect(params[0].name).to.equal('foo');
+      expect(params[0].kind.type).to.equal('uint');
+    });
+  });
 });

@@ -26,6 +26,6 @@ export default class Event {
   }
 
   indexedParams (indexed) {
-    return this._inputs.filter((input) => !!input.indexed === indexed);
+    return this._inputs.filter((input) => input.indexed === indexed);
   }
 }
