@@ -1,4 +1,5 @@
 import Constructor from './constructor';
+import Token from '../token';
 
 describe('spec/Constructor', () => {
   const inputs = [{ kind: 'bool' }, { kind: 'string' }];
@@ -13,6 +14,14 @@ describe('spec/Constructor', () => {
   describe('inputParamTypes', () => {
     it('retrieves the input types as received', () => {
       expect(cr.inputParamTypes()).to.deep.equal(['bool', 'string']);
+    });
+  });
+
+  describe('encodeCall', () => {
+    it('encodes correctly', () => {
+      expect(
+        cr.encodeCall([new Token('bool', true), new Token('string', 'jacogr')])
+      ).to.equal('0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000066a61636f67720000000000000000000000000000000000000000000000000000');
     });
   });
 });
