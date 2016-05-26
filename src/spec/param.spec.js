@@ -1,6 +1,6 @@
 import Param from './param';
 
-describe('spec/param', () => {
+describe('spec/Param', () => {
   describe('constructor', () => {
     const param = new Param('foo', 'uint');
 

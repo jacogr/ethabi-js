@@ -1,6 +1,6 @@
 import Mediate from './mediate';
 
-describe('encoder/mediate', () => {
+describe('encoder/Mediate', () => {
   const LONG15 = '1234567890abcdef000000000000000000000000000000000000000000000000';
   const DOUBLE15 = `${LONG15}${LONG15}`;
   const ARRAY = [new Mediate('raw', DOUBLE15), new Mediate('raw', LONG15)];

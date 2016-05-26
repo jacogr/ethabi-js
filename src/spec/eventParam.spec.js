@@ -1,6 +1,6 @@
 import EventParam from './eventParam';
 
-describe('spec/eventParam', () => {
+describe('spec/EventParam', () => {
   describe('constructor', () => {
     const param = new EventParam('foo', 'uint', true);
 

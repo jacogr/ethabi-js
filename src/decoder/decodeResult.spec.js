@@ -1,6 +1,6 @@
 import DecodeResult from './decodeResult';
 
-describe('decoder/decodeResult', () => {
+describe('decoder/DecodeResult', () => {
   describe('constructor', () => {
     it('sets the token of the object', () => {
       expect((new DecodeResult('token', 2)).token).to.equal('token');
