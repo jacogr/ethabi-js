@@ -156,7 +156,7 @@ describe('spec/paramType/format', () => {
           const pt = toParamType('bytes[8]');
 
           expect(pt.type).to.equal('fixedArray');
-          expect(pt.value.type).to.equal('bytes');
+          expect(pt.subtype.type).to.equal('bytes');
           expect(pt.length).to.equal(8);
         });
 
@@ -165,9 +165,9 @@ describe('spec/paramType/format', () => {
 
           expect(pt.type).to.equal('fixedArray');
           expect(pt.length).to.equal(3);
-          expect(pt.value.type).to.equal('fixedArray');
-          expect(pt.value.length).to.equal(45);
-          expect(pt.value.value.type).to.equal('bytes');
+          expect(pt.subtype.type).to.equal('fixedArray');
+          expect(pt.subtype.length).to.equal(45);
+          expect(pt.subtype.subtype.type).to.equal('bytes');
         });
       });
 
@@ -176,15 +176,15 @@ describe('spec/paramType/format', () => {
           const pt = toParamType('bytes[]');
 
           expect(pt.type).to.equal('array');
-          expect(pt.value.type).to.equal('bytes');
+          expect(pt.subtype.type).to.equal('bytes');
         });
 
         it('creates a dynamic array of dynamic arrays', () => {
           const pt = toParamType('bool[][]');
 
           expect(pt.type).to.equal('array');
-          expect(pt.value.type).to.equal('array');
-          expect(pt.value.value.type).to.equal('bool');
+          expect(pt.subtype.type).to.equal('array');
+          expect(pt.subtype.subtype.type).to.equal('bool');
         });
       });
 
@@ -194,17 +194,17 @@ describe('spec/paramType/format', () => {
 
           expect(pt.type).to.equal('fixedArray');
           expect(pt.length).to.equal(3);
-          expect(pt.value.type).to.equal('array');
-          expect(pt.value.value.type).to.equal('bool');
+          expect(pt.subtype.type).to.equal('array');
+          expect(pt.subtype.subtype.type).to.equal('bool');
         });
 
         it('creates a dynamic fixed array', () => {
           const pt = toParamType('bool[3][]');
 
           expect(pt.type).to.equal('array');
-          expect(pt.value.type).to.equal('fixedArray');
-          expect(pt.value.length).to.equal(3);
-          expect(pt.value.value.type).to.equal('bool');
+          expect(pt.subtype.type).to.equal('fixedArray');
+          expect(pt.subtype.length).to.equal(3);
+          expect(pt.subtype.subtype.type).to.equal('bool');
         });
       });
     });

@@ -88,7 +88,7 @@ export default class Decoder {
         newOffset = lengthOffset + 1;
 
         for (let idx = 0; idx < length; idx++) {
-          const result = this.decodeParam(param.value, slices, newOffset);
+          const result = this.decodeParam(param.subtype, slices, newOffset);
           newOffset = result.newOffset;
           tokens.push(result.token);
         }
@@ -99,7 +99,7 @@ export default class Decoder {
         newOffset = offset;
 
         for (let idx = 0; idx < param.length; idx++) {
-          const result = this.decodeParam(param.value, slices, newOffset);
+          const result = this.decodeParam(param.subtype, slices, newOffset);
           newOffset = result.newOffset;
           tokens.push(result.token);
         }

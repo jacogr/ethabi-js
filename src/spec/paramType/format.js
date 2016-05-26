@@ -53,10 +53,10 @@ export function fromParamType (paramType) {
       return `bytes${paramType.length}`;
 
     case 'fixedArray':
-      return `${fromParamType(paramType.value)}[${paramType.length}]`;
+      return `${fromParamType(paramType.subtype)}[${paramType.length}]`;
 
     case 'array':
-      return `${fromParamType(paramType.value)}[]`;
+      return `${fromParamType(paramType.subtype)}[]`;
 
     default:
       throw new Error(`Cannot convert from ParamType ${paramType.type}`);

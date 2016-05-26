@@ -49,15 +49,15 @@ describe('spec/paramType/ParamType', () => {
     });
 
     it('sets the type of the object', () => {
-      expect((new ParamType('bool', true, 1)).type).to.equal('bool');
+      expect((new ParamType('bool', null, 1)).type).to.equal('bool');
     });
 
-    it('sets the value of the object', () => {
-      expect((new ParamType('bool', true, 1)).value).to.equal(true);
+    it('sets the subtype of the object', () => {
+      expect((new ParamType('array', 'bool', 1)).subtype).to.equal('bool');
     });
 
     it('sets the length of the object', () => {
-      expect((new ParamType('bool', true, 1)).length).to.equal(1);
+      expect((new ParamType('array', 'bool', 1)).length).to.equal(1);
     });
   });
 });
