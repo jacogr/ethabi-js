@@ -72,19 +72,61 @@ describe('spec/param', () => {
     });
 
     describe('arrays', () => {
-      it('creates fixed array', () => {
-        const pt = Param.toParamType('bytes[8]');
+      describe('fixed arrays', () => {
+        it('creates fixed array', () => {
+          const pt = Param.toParamType('bytes[8]');
 
-        expect(pt.type).to.equal('fixedArray');
-        expect(pt.value.type).to.equal('bytes');
-        expect(pt.length).to.equal(8);
+          expect(pt.type).to.equal('fixedArray');
+          expect(pt.value.type).to.equal('bytes');
+          expect(pt.length).to.equal(8);
+        });
+
+        it('creates fixed arrays of fixed arrays', () => {
+          const pt = Param.toParamType('bytes[45][3]');
+
+          expect(pt.type).to.equal('fixedArray');
+          expect(pt.length).to.equal(3);
+          expect(pt.value.type).to.equal('fixedArray');
+          expect(pt.value.length).to.equal(45);
+          expect(pt.value.value.type).to.equal('bytes');
+        });
       });
 
-      it('creats a dynamic array', () => {
-        const pt = Param.toParamType('bytes[]');
+      describe('dynamic arrays', () => {
+        it('creates a dynamic array', () => {
+          const pt = Param.toParamType('bytes[]');
 
-        expect(pt.type).to.equal('array');
-        expect(pt.value.type).to.equal('bytes');
+          expect(pt.type).to.equal('array');
+          expect(pt.value.type).to.equal('bytes');
+        });
+
+        it('creates a dynamic array of dynamic arrays', () => {
+          const pt = Param.toParamType('bool[][]');
+
+          expect(pt.type).to.equal('array');
+          expect(pt.value.type).to.equal('array');
+          expect(pt.value.value.type).to.equal('bool');
+        });
+      });
+
+      describe('mixed arrays', () => {
+        it('creates a fixed dynamic array', () => {
+          const pt = Param.toParamType('bool[][3]');
+
+          expect(pt.type).to.equal('fixedArray');
+          expect(pt.length).to.equal(3);
+          expect(pt.value.type).to.equal('array');
+          expect(pt.value.value.type).to.equal('bool');
+        });
+
+        it('creates a dynamic fixed array', () => {
+          const pt = Param.toParamType('bool[3][]');
+
+          expect(pt.type).to.equal('array');
+          expect(pt.value.type).to.equal('fixedArray');
+          expect(pt.value.length).to.equal(3);
+          expect(pt.value.value.type).to.equal('bool');
+        });
       });
     });
   });
