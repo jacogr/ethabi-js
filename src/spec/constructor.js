@@ -7,7 +7,7 @@ export default class Constructor {
     return this._inputs;
   }
 
-  paramTypes () {
+  inputParamTypes () {
     return this._inputs.map((input) => input.kind);
   }
 }
