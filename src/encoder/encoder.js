@@ -2,8 +2,8 @@ import { padAddress, padBool, padBytes, padFixedBytes, padU32, padString } from 
 import Mediate from './mediate';
 
 export default class Encoder {
-  encode (tokens) {
-    const mediates = tokens.map((token) => this.encodeToken(token));
+  static encode (tokens) {
+    const mediates = tokens.map((token) => Encoder.encodeToken(token));
     const inits = mediates
       .map((mediate, idx) => mediate.init(Mediate.offsetFor(mediates, idx)))
       .join('');
@@ -14,7 +14,7 @@ export default class Encoder {
     return `${inits}${closings}`;
   }
 
-  encodeToken (token) {
+  static encodeToken (token) {
     switch (token.type) {
       case 'address':
         return new Mediate('raw', padAddress(token.value));
@@ -37,7 +37,7 @@ export default class Encoder {
 
       case 'fixedArray':
       case 'array':
-        return new Mediate(token.type, token.value.map((token) => this.encodeToken(token)));
+        return new Mediate(token.type, token.value.map((token) => Encoder.encodeToken(token)));
 
       default:
         throw new Error(`Invalid token type ${token.type} in encodeToken`);
