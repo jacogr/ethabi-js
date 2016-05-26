@@ -1,4 +1,4 @@
-import { toParamType } from './paramType/reader';
+import { toParamType } from './paramType/format';
 
 export default class Param {
   constructor (name, type) {

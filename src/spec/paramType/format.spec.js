@@ -1,6 +1,85 @@
-import { toParamType } from './reader';
+import ParamType from './paramType';
+import { fromParamType, toParamType } from './format';
 
-describe('spec/paramType/reader', () => {
+describe('spec/paramType/format', () => {
+  describe('fromParamType', () => {
+    it('errors on invalid types', () => {
+      expect(() => fromParamType({ type: 'noMatch' })).to.throw(/noMatch/);
+    });
+
+    describe('simple types', () => {
+      it('converts address to address', () => {
+        const pt = new ParamType('address');
+
+        expect(fromParamType(pt)).to.equal('address');
+      });
+
+      it('converts bool to bool', () => {
+        const pt = new ParamType('bool');
+
+        expect(fromParamType(pt)).to.equal('bool');
+      });
+
+      it('converts bytes to bytes', () => {
+        const pt = new ParamType('bytes');
+
+        expect(fromParamType(pt)).to.equal('bytes');
+      });
+
+      it('converts string to string', () => {
+        const pt = new ParamType('string');
+
+        expect(fromParamType(pt)).to.equal('string');
+      });
+    });
+
+    describe('length types', () => {
+      it('converts int32 to int32', () => {
+        const pt = new ParamType('int', null, 32);
+
+        expect(fromParamType(pt)).to.equal('int32');
+      });
+
+      it('converts uint64 to int64', () => {
+        const pt = new ParamType('uint', null, 64);
+
+        expect(fromParamType(pt)).to.equal('uint64');
+      });
+
+      it('converts fixedBytes8 to bytes8', () => {
+        const pt = new ParamType('fixedBytes', null, 8);
+
+        expect(fromParamType(pt)).to.equal('bytes8');
+      });
+    });
+
+    describe('arrays', () => {
+      it('converts string[2] to string[2]', () => {
+        const pt = new ParamType('fixedArray', new ParamType('string'), 2);
+
+        expect(fromParamType(pt)).to.equal('string[2]');
+      });
+
+      it('converts bool[] to bool[]', () => {
+        const pt = new ParamType('array', new ParamType('bool'));
+
+        expect(fromParamType(pt)).to.equal('bool[]');
+      });
+
+      it('converts bool[][2] to bool[][2]', () => {
+        const pt = new ParamType('fixedArray', new ParamType('array', new ParamType('bool')), 2);
+
+        expect(fromParamType(pt)).to.equal('bool[][2]');
+      });
+
+      it('converts bool[2][] to bool[2][]', () => {
+        const pt = new ParamType('array', new ParamType('fixedArray', new ParamType('bool'), 2));
+
+        expect(fromParamType(pt)).to.equal('bool[2][]');
+      });
+    });
+  });
+
   describe('toParamType', () => {
     it('errors on invalid types', () => {
       expect(() => toParamType('noMatch')).to.throw(/noMatch/);

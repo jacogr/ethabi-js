@@ -36,3 +36,29 @@ export function toParamType (type) {
       throw new Error(`Cannot convert ${type} to valid ParamType`);
   }
 }
+
+export function fromParamType (paramType) {
+  switch (paramType.type) {
+    case 'address':
+    case 'bool':
+    case 'bytes':
+    case 'string':
+      return paramType.type;
+
+    case 'int':
+    case 'uint':
+      return `${paramType.type}${paramType.length}`;
+
+    case 'fixedBytes':
+      return `bytes${paramType.length}`;
+
+    case 'fixedArray':
+      return `${fromParamType(paramType.value)}[${paramType.length}]`;
+
+    case 'array':
+      return `${fromParamType(paramType.value)}[]`;
+
+    default:
+      throw new Error(`Cannot convert from ParamType ${paramType.type}`);
+  }
+}
