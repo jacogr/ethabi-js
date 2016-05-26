@@ -1,3 +1,11 @@
-// import { Constructor, Event, Func } from './spec';
+import Interface from './spec';
 
-export default class Contract {}
+export default class Contract {
+  constructor (abi) {
+    this._interface = new Interface(abi);
+  }
+
+  get interface () {
+    return this._interface;
+  }
+}
