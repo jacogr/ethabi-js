@@ -1,8 +1,3 @@
-import { Constructor, Event, Func } from './spec';
+// import { Constructor, Event, Func } from './spec';
 
-export default class Contract {
-  constructor () {
-  }
-
-
-}
+export default class Contract {}
