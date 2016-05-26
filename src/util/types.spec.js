@@ -1,6 +1,6 @@
 import { isArray } from './types';
 
-describe('utils/istype', () => {
+describe('util/types', () => {
   describe('isArray', () => {
     it('correctly identifies empty arrays as Array', () => {
       expect(isArray([])).to.be.true;

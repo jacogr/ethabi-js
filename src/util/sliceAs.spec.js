@@ -1,6 +1,6 @@
 import { asAddress, asBool } from './sliceAs';
 
-describe('utils/sliceAs', () => {
+describe('util/sliceAs', () => {
   describe('asAddress', () => {
     it('correctly returns the last 40 characters', () => {
       const address = '1111111111222222222233333333334444444444';
