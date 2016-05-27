@@ -18,8 +18,7 @@
     "lint": "eslint --ignore-path .gitignore .",
     "testCoverage": "istanbul cover _mocha -- 'lib/**/*.spec.js'",
     "testOnce": "mocha 'lib/**/*.spec.js'",
-    "gitConfig": "git config --global user.email \"jacogr@gmail.com\" ; git config --global user.name \"BuildBot\" ; git config --global push.default simple",
-    "npmRelease": "bash -c echo -e \"$NPM_USERNAME\n$NPM_PASSWORD\n$NPM_EMAIL\" | npm login ; bash -c echo -e \"\" | release-it"
+    "npmRelease": "release-it"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
