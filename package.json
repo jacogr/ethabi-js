@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "ethabi-js",
   "version": "",
   "scripts": {
     "coveralls": "npm run testCoverage && coveralls < coverage/lcov.info",
@@ -30,7 +30,6 @@
   "dependencies": {
     "bignumber.js": "^2.3.0",
     "js-sha3": "^0.5.1",
-    "utf8": "^2.1.1",
-    "yargs": "^4.7.0"
+    "utf8": "^2.1.1"
   }
 }
