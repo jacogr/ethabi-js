@@ -25,9 +25,4 @@ A very early, very POC-type port of [https://github.com/ethcore/ethabi](https://
 
 - internally the library operates on string binary representations as opposed to Vector bytes, lengths are therefore 64 bytes as opposed to 32 bytes
 - function names are adapted from the Rust standard snake_case to the JavaScript standard camelCase
-
-
-## todos
-
-- do & complete decoder
-- complete for full 1-to-1 cli compatibility with original
+- due to the initial library focus, the cli component (as implemented by the original) is not supported nor mplemented
