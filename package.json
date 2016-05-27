@@ -1,11 +1,21 @@
 {
   "name": "ethabi-js",
-  "version": "",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacogr/ethabi-js.git"
+  },
+  "keywords": ["Ethereum", "ABI", "Web3"],
   "scripts": {
     "coveralls": "npm run testCoverage && coveralls < coverage/lcov.info",
     "lint": "eslint --ignore-path .gitignore .",
     "testCoverage": "istanbul cover _mocha -- 'src/**/*.spec.js'",
-    "testOnce": "mocha 'src/**/*.spec.js'"
+    "testOnce": "mocha 'src/**/*.spec.js'",
+    "gitConfig": "git config --global user.email 'jacogr@gmail.com' ; git config --global user.name 'BuildBot' ; git config --global push.default simple",
+    "npmRelease": "echo -e '$NPM_USERNAME\n$NPM_PASSWORD\n$NPM_EMAIL' | npm login ; echo -e '' | release-it"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
@@ -24,6 +34,7 @@
     "eslint-plugin-standard": "^1.3.2",
     "istanbul": "^1.0.0-alpha",
     "mocha": "^2.4.5",
+    "release-it": "^2.4.0",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0"
   },
