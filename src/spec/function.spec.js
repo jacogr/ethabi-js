@@ -12,10 +12,34 @@ describe('spec/Function', () => {
   const func = new Func('test', inputs, outputs);
 
   describe('constructor', () => {
+    it('requires inputs array', () => {
+      expect(() => new Func('test', 'blah')).to.throw(/array/);
+    });
+
+    it('requires inputs items to be EventParam', () => {
+      expect(() => new Func('test', [1])).to.throw(/instance/);
+    });
+
+    it('requires outputs array', () => {
+      expect(() => new Func('test', inputs, 'blah')).to.throw(/array/);
+    });
+
+    it('requires output items to be EventParam', () => {
+      expect(() => new Func('test', inputs, [1])).to.throw(/instance/);
+    });
+
     it('stores the parameters as received', () => {
       expect(func.name).to.equal('test');
       expect(func.inputs).to.deep.equal(inputs);
       expect(func.outputs).to.deep.equal(outputs);
+    });
+
+    it('matches empty inputs with []', () => {
+      expect(new Func('test', null, outputs).inputs).to.deep.equal([]);
+    });
+
+    it('matches empty outputs with []', () => {
+      expect(new Func('test', inputs).outputs).to.deep.equal([]);
     });
   });
 

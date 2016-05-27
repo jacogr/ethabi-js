@@ -7,18 +7,20 @@ import { isArray, isInstanceOf } from '../../util/types';
 
 export default class Event {
   constructor (name, inputs, anonymous) {
-    if (!isArray(inputs)) {
-      throw new Error('inputs should be array of EventParam');
-    } else {
-      inputs.forEach((input, idx) => {
-        if (!isInstanceOf(input, EventParam)) {
-          throw new Error(`inputs[${idx}] not an instance of EventParam`);
-        }
-      });
+    if (inputs) {
+      if (!isArray(inputs)) {
+        throw new Error('inputs should be array of EventParam');
+      } else {
+        inputs.forEach((input, idx) => {
+          if (!isInstanceOf(input, EventParam)) {
+            throw new Error(`inputs[${idx}] not an instance of EventParam`);
+          }
+        });
+      }
     }
 
     this._name = name;
-    this._inputs = inputs;
+    this._inputs = inputs || [];
     this._anonymous = anonymous;
   }
 

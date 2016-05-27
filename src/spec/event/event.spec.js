@@ -12,7 +12,7 @@ describe('spec/event/Event', () => {
 
   describe('constructor', () => {
     it('requires inputs array', () => {
-      expect(() => new Event('test', null, true)).to.throw(/array/);
+      expect(() => new Event('test', 'blah', true)).to.throw(/array/);
     });
 
     it('requires inputs items to be EventParam', () => {
@@ -23,6 +23,10 @@ describe('spec/event/Event', () => {
       expect(event.name).to.equal('test');
       expect(event.inputs).to.deep.equal(inputs);
       expect(event.anonymous).to.be.true;
+    });
+
+    it('matches empty inputs with []', () => {
+      expect(new Event('test', null, true).inputs).to.deep.equal([]);
     });
   });
 

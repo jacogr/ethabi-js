@@ -10,8 +10,20 @@ describe('spec/Constructor', () => {
   const cr = new Constructor(inputs);
 
   describe('constructor', () => {
+    it('requires inputs array', () => {
+      expect(() => new Constructor('blah')).to.throw(/array/);
+    });
+
+    it('requires inputs items to be EventParam', () => {
+      expect(() => new Constructor([1])).to.throw(/instance/);
+    });
+
     it('stores the inputs as received', () => {
       expect(cr.inputs).to.deep.equal(inputs);
+    });
+
+    it('matches empty inputs with []', () => {
+      expect(new Constructor().inputs).to.deep.equal([]);
     });
   });
 
