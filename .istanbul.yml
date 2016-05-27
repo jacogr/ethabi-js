@@ -1,4 +1,4 @@
 instrumentation:
-  root: src
+  root: lib
   extensions:
     - .js

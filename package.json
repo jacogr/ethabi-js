@@ -12,8 +12,8 @@
   "scripts": {
     "coveralls": "npm run testCoverage && coveralls < coverage/lcov.info",
     "lint": "eslint --ignore-path .gitignore .",
-    "testCoverage": "istanbul cover _mocha -- 'src/**/*.spec.js'",
-    "testOnce": "mocha 'src/**/*.spec.js'",
+    "testCoverage": "istanbul cover _mocha -- 'lib/**/*.spec.js'",
+    "testOnce": "mocha 'lib/**/*.spec.js'",
     "gitConfig": "git config --global user.email 'jacogr@gmail.com' ; git config --global user.name 'BuildBot' ; git config --global push.default simple",
     "npmRelease": "echo -e '$NPM_USERNAME\n$NPM_PASSWORD\n$NPM_EMAIL' | npm login ; echo -e '' | release-it"
   },
