@@ -1,7 +1,7 @@
 import Constructor from './constructor';
 import Event from './event';
+import EventParam from './event/eventParam';
 import Func from './function';
-import EventParam from './eventParam';
 import Param from './param';
 
 export default class Interface {

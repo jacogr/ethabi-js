@@ -1,8 +1,8 @@
 import DecodedLog from './decodedLog';
 
-const log = DecodedLog('someParams', 'someAddress');
+const log = new DecodedLog('someParams', 'someAddress');
 
-describe('spec/DecodeLog', () => {
+describe('spec/event/DecodedLog', () => {
   describe('constructor', () => {
     it('sets internal state', () => {
       expect(log.params).to.equal('someParams');

@@ -1,4 +1,4 @@
-import { toParamType } from './paramType/format';
+import { toParamType } from '../paramType/format';
 
 export default class EventParam {
   constructor (name, type, indexed) {

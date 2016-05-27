@@ -1,4 +1,5 @@
-import { isArray } from './types';
+import { isArray, isString, isInstanceOf } from './types';
+import Token from '../token';
 
 describe('util/types', () => {
   describe('isArray', () => {
@@ -16,6 +17,30 @@ describe('util/types', () => {
 
     it('correctly identifies objects as non-Array', () => {
       expect(isArray({})).to.be.false;
+    });
+  });
+
+  describe('isString', () => {
+    it('correctly identifies empty string as string', () => {
+      expect(isString('')).to.be.true;
+    });
+
+    it('correctly identifies string as string', () => {
+      expect(isString('123')).to.be.true;
+    });
+  });
+
+  describe('isInstanceOf', () => {
+    it('correctly identifies build-in instanceof', () => {
+      expect(isInstanceOf(new String('123'), String)).to.be.true; // eslint-disable-line no-new-wrappers
+    });
+
+    it('correctly identifies own instanceof', () => {
+      expect(isInstanceOf(new Token('int', 123), Token)).to.be.true;
+    });
+
+    it('correctly reports false for own', () => {
+      expect(isInstanceOf({ type: 'int' }, Token)).to.be.false;
     });
   });
 });

@@ -135,10 +135,6 @@ describe('decoder/Decoder', () => {
       expect(() => Decoder.decode(null, '123')).to.throw(/Invalid/);
     });
 
-    it('throws an error on invalid data', () => {
-      expect(() => Decoder.decode([], null)).to.throw(/Invalid/);
-    });
-
     describe('address', () => {
       it('decodes an address', () => {
         expect(

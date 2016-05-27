@@ -8,8 +8,8 @@ import { asAddress, asBool, asU32 } from '../util/sliceAs';
 
 export default class Decoder {
   static decode (params, data) {
-    if (!params || !data) {
-      throw new Error('Invalid inputs to decode');
+    if (!params) {
+      throw new Error('Invalid parameters to decode');
     }
 
     const slices = sliceData(data);
