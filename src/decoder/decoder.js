@@ -3,13 +3,15 @@ import utf8 from 'utf8';
 import Token from '../token';
 import BytesTaken from './bytesTaken';
 import DecodeResult from './decodeResult';
+import ParamType from '../spec/paramType';
 import { sliceData } from '../util/slice';
 import { asAddress, asBool, asU32 } from '../util/sliceAs';
+import { isArray, isInstanceOf } from '../util/types';
 
 export default class Decoder {
   static decode (params, data) {
-    if (!params) {
-      throw new Error('Invalid parameters to decode');
+    if (!isArray(params)) {
+      throw new Error('Parameters should be array of ParamType');
     }
 
     const slices = sliceData(data);
@@ -44,6 +46,10 @@ export default class Decoder {
   }
 
   static decodeParam (param, slices, offset) {
+    if (!isInstanceOf(param, ParamType)) {
+      throw new Error('param should be instanceof ParamType');
+    }
+
     const tokens = [];
     let taken;
     let lengthOffset;

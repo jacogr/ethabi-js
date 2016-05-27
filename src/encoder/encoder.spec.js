@@ -4,6 +4,10 @@ import { padAddress, padFixedBytes, padU32 } from '../util/pad';
 
 describe('encoder/Encoder', () => {
   describe('encodeToken', () => {
+    it('requires token as Token', () => {
+      expect(() => Encoder.encodeToken()).to.throw(/Token/);
+    });
+
     it('encodes address tokens in Mediate(raw)', () => {
       const mediate = Encoder.encodeToken(new Token('address', '123'));
 
@@ -72,11 +76,18 @@ describe('encoder/Encoder', () => {
     });
 
     it('throws an Error on invalid tokens', () => {
-      expect(() => Encoder.encodeToken({ type: 'noMatch' })).to.throw(/noMatch/);
+      const token = new Token('address');
+      token._type = 'noMatch';
+
+      expect(() => Encoder.encodeToken(token)).to.throw(/noMatch/);
     });
   });
 
   describe('encode', () => {
+    it('requires tokens array', () => {
+      expect(() => Encoder.encode()).to.throw(/array/);
+    });
+
     describe('addresses', () => {
       const address1 = '1111111111111111111111111111111111111111';
       const address2 = '2222222222222222222222222222222222222222';

@@ -83,8 +83,15 @@ describe('decoder/Decoder', () => {
   });
 
   describe('decodeParam', () => {
+    it('throws an error on non ParamType param', () => {
+      expect(() => Decoder.decodeParam({})).to.throw(/ParamType/);
+    });
+
     it('throws an error on invalid param type', () => {
-      expect(() => Decoder.decodeParam({ type: 'noMatch' })).to.throw(/noMatch/);
+      const pt = new ParamType('address');
+      pt._type = 'noMatch';
+
+      expect(() => Decoder.decodeParam(pt)).to.throw(/noMatch/);
     });
 
     it('decodes an address', () => {
@@ -132,7 +139,7 @@ describe('decoder/Decoder', () => {
 
   describe('decode', () => {
     it('throws an error on invalid params', () => {
-      expect(() => Decoder.decode(null, '123')).to.throw(/Invalid/);
+      expect(() => Decoder.decode(null, '123')).to.throw(/array/);
     });
 
     describe('address', () => {
