@@ -14,8 +14,10 @@ echo "https://${GITHUB_TOKEN}:@github.com" > .git/credentials
 git checkout master
 
 npm run build
+DATE=`date`
+echo "/* ${DATE} */" >> ./index.js
 
-VERSION=`npm version patch || exit 0`
+VERSION=`npm version patch`
 git add --force index.js
 git commit --message "${VERSION}"
 git push
