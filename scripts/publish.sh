@@ -16,9 +16,9 @@ git checkout master
 npm run build
 DATE=`date`
 echo "/* ${DATE} */" >> ./index.js
-
-VERSION=`npm version patch`
 git add --force index.js
 git commit --message "[CI skip] ${VERSION}"
+
+npm version patch --message "[CI skip] %s"
 git push
 git push --tags
