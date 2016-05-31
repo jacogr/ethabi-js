@@ -2,3 +2,4 @@ coverage
 ethabi-rust
 node_modules
 npm-debug.log
+/index.js
