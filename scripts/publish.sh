@@ -11,6 +11,8 @@ npm run build
 git config --global user.email "admin@travis-ci.org"
 git config --global user.name "Travis CI"
 git config --global push.default simple
+git config credential.helper "store --file=.git/credentials"
+echo "https://${GITHUB_TOKEN}:@github.com" > .git/credentials
 
 git checkout master
 git add --force ./index.js
