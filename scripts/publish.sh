@@ -10,6 +10,6 @@ npm run build
 
 git config --global user.email "admin@travis-ci.org"
 git config --global user.name "Travis CI"
-git add ./index.js
+git add --force ./index.js
 
 npm run npmRelease
