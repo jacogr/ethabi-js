@@ -15,8 +15,8 @@ git checkout master
 
 npm run build
 
-VERSION=`npm version patch`
-git add index.js
+VERSION=`npm version patch || exit 0`
+git add --force index.js
 git commit --message "${VERSION}"
 git push
 git push --tags
