@@ -28,7 +28,7 @@
     "afterReleaseCommand": false
   },
   "npm": {
-    "publish": true,
+    "publish": false,
     "publishPath": ".",
     "tag": "latest",
     "private": false,
