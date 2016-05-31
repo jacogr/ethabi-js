@@ -11,6 +11,7 @@ matrix:
   include:
   - env: SCRIPT=lint
   - env: SCRIPT=coveralls
+  - env: SCRIPT=publish
 
 cache:
   directories:
