@@ -15,7 +15,7 @@ git checkout master
 
 npm run build
 
-git add --force ./index.json
+git add --force ./index.js
 VERSION=`npm version patch`
 git commit --message="[CI skip] ${VERSION}"
 git push
