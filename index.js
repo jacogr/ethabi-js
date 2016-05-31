@@ -239,7 +239,9 @@ Mediate = function () {
 
       throw new Error('Invalid type ' + type + ' received for Mediate.validateType');} }]);return Mediate;}();
 
-var TYPES$1 = ['address', 'fixedArray', 'array', 'fixedBytes', 'bytes', 'bool', 'int', 'uint', 'string'];var 
+var TYPES$1 = ['address', 'bytes', 'int', 'uint', 'bool', 'string', 'array', 'fixedBytes', 'fixedArray'];
+
+var 
 
 Token = function () {
   function Token(type, value) {babelHelpers.classCallCheck(this, Token);
@@ -315,7 +317,7 @@ Encoder = function () {function Encoder() {babelHelpers.classCallCheck(this, Enc
         default:
           throw new Error('Invalid token type ' + token.type + ' in encodeToken');}} }]);return Encoder;}();
 
-var TYPES$2 = ['address', 'bytes', 'int', 'uint', 'bool', 'string', 'array', 'fixedBytes', 'fixedArray'];var 
+var 
 
 ParamType = function () {
   function ParamType(type, subtype, length) {babelHelpers.classCallCheck(this, ParamType);
@@ -339,7 +341,7 @@ ParamType = function () {
 
 
     type) {
-      if (TYPES$2.filter(function (_type) {return type === _type;}).length) {
+      if (TYPES$1.filter(function (_type) {return type === _type;}).length) {
         return true;}
 
 
@@ -775,23 +777,35 @@ var
 
 Interface = function () {
   function Interface(abi) {babelHelpers.classCallCheck(this, Interface);
-    this._interface = Interface.parseABI(abi);}babelHelpers.createClass(Interface, [{ key: 'interface', get: function get() 
+    this._interface = Interface.parseABI(abi);}babelHelpers.createClass(Interface, [{ key: 'encodeTokens', value: function encodeTokens(
 
 
-    {
-      return this._interface;} }, { key: 'constructors', get: function get() 
 
 
-    {
-      return this._interface.filter(function (item) {return item instanceof Constructor;});} }, { key: 'events', get: function get() 
 
 
-    {
-      return this._interface.filter(function (item) {return item instanceof Event;});} }, { key: 'functions', get: function get() 
 
 
-    {
-      return this._interface.filter(function (item) {return item instanceof Func;});} }], [{ key: 'parseABI', value: function parseABI(
+
+
+
+
+
+
+
+
+
+
+    paramTypes, values) {
+      var createToken = function createToken(paramType, value) {
+        if (paramType.subtype) {
+          return new Token(paramType.type, value.map(function (entry) {return createToken(paramType.subtype, entry);}));}
+
+
+        return new Token(paramType.type, value);};
+
+
+      return paramTypes.map(function (paramType, idx) {return createToken(paramType, values[idx]);});} }, { key: 'interface', get: function get() {return this._interface;} }, { key: 'constructors', get: function get() {return this._interface.filter(function (item) {return item instanceof Constructor;});} }, { key: 'events', get: function get() {return this._interface.filter(function (item) {return item instanceof Event;});} }, { key: 'functions', get: function get() {return this._interface.filter(function (item) {return item instanceof Func;});} }], [{ key: 'parseABI', value: function parseABI(
 
 
     abi) {
@@ -813,4 +827,4 @@ var
 
 EthAbi = function (_Interface) {babelHelpers.inherits(EthAbi, _Interface);function EthAbi() {babelHelpers.classCallCheck(this, EthAbi);return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(EthAbi).apply(this, arguments));}return EthAbi;}(Interface);
 
-module.exports = EthAbi;/* Tue May 31 10:46:38 UTC 2016 */
+module.exports = EthAbi;/* Tue May 31 13:02:46 UTC 2016 */
