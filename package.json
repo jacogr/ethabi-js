@@ -1,6 +1,6 @@
 {
   "name": "ethabi-js",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "main": "index.js",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "MIT",
