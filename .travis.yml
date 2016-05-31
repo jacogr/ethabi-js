@@ -7,17 +7,11 @@ env:
   global:
     - CXX=g++-4.8
 
-matrix:
-  include:
-  - env: SCRIPT=lint
-  - env: SCRIPT=coveralls
-
 cache:
   directories:
     - node_modules
 
 script:
-  - npm run $SCRIPT
-
-after_success:
+  - npm run lint
+  - npm run coveralls
   - npm run publish
