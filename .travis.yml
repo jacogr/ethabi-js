@@ -19,5 +19,5 @@ cache:
 script:
   - npm run $SCRIPT
 
-deploy:
+after_success:
   - npm run publish
