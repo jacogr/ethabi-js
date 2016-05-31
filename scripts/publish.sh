@@ -16,7 +16,7 @@ git checkout master
 npm run build
 
 git add --force ./index.js
-VERSION=`npm version patch`
-git commit --message="[CI skip] ${VERSION}"
+git commit --message="build"
+VERSION=`npm version patch -m "[CI skip]"`
 git tag --message="Release ${VERSION}" $VERSION
 git push --tags
