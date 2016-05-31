@@ -2,9 +2,9 @@
 
 set -o errexit
 
-if [[ ("$TRAVIS_PULL_REQUEST" != "false") || ("$TRAVIS_BRANCH" != "master") ]]; then
-  exit 0
-fi
+#if [[ ("$TRAVIS_PULL_REQUEST" != "false") || ("$TRAVIS_BRANCH" != "master") ]]; then
+#  exit 0
+#fi
 
 git config --global user.email "admin@travis-ci.org"
 git config --global user.name "Travis CI"
