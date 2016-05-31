@@ -18,5 +18,6 @@ VERSION=`npm version patch`
 npm run build
 
 git add --force ./index.js ./package.json
+git commit --message="[CI skip] ${VERSION}"
 git tag --annotate --message="Release ${VERSION}" $VERSION
 git push --tags
