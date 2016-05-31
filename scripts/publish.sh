@@ -19,6 +19,6 @@ echo "/* ${DATE} */" >> ./index.js
 
 VERSION=`npm version patch`
 git add --force index.js
-git commit --message "${VERSION}"
+git commit --message "[CI skip] ${VERSION}"
 git push
 git push --tags
