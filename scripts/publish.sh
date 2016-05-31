@@ -19,5 +19,6 @@ npm run build
 
 git add --force ./index.js ./package.json
 git commit --message="[CI skip] ${VERSION}"
+git push
 git tag --annotate --message="Release ${VERSION}" $VERSION
 git push --tags
