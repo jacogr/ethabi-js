@@ -2,8 +2,8 @@
   "non-interactive": true,
   "dry-run": false,
   "verbose": true,
-  "force": false,
-  "pkgFiles": ["package.json"],
+  "force": true,
+  "pkgFiles": ["package.json", "index.js"],
   "increment": "patch",
   "prereleaseId": null,
   "commitMessage": "[CI skip] Release %s",
@@ -21,8 +21,8 @@
   "dist": {
     "repo": false,
     "stageDir": ".stage",
-    "baseDir": "dist",
-    "files": ["**/*"],
+    "baseDir": ".",
+    "files": [],
     "pkgFiles": null,
     "beforeStageCommand": false,
     "afterReleaseCommand": false

@@ -14,7 +14,5 @@ echo "https://${GITHUB_TOKEN}:@github.com" > .git/credentials
 git checkout master
 
 npm run build
-ls -al ./index.js
-git add --force ./index.js
 
 node_modules/.bin/release-it
