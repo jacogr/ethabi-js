@@ -17,4 +17,5 @@ echo "https://${GITHUB_TOKEN}:@github.com" > .git/credentials
 git checkout master
 git add --force ./index.js
 
-node_modules/.bin/release-it
+echo -e "$NPM_USERNAME\n$NPM_PASSWORD\n$NPM_EMAIL" | npm login
+echo -e "" | node_modules/.bin/release-it
