@@ -13,6 +13,10 @@ git config credential.helper "store --file=.git/credentials"
 echo "https://${GITHUB_TOKEN}:@github.com" > .git/credentials
 git checkout master
 
+VERSION=`npm version patch`
+
 npm run build
 
-node_modules/.bin/release-it
+git add --force ./index.js ./package.json
+git tag --annotate --message="Release ${VERSION}" $VERSION
+git push --tags
