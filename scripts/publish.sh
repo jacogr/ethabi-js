@@ -17,8 +17,8 @@ npm run build
 DATE=`date`
 echo "/* ${DATE} */" >> ./index.js
 git add --force index.js
-git commit --message "[CI skip] ${VERSION}"
+git commit --message "[CI skip] ${DATE}"
 
-npm version patch --message "[CI skip] %s"
+npm version patch --message "[CI skip] ${DATE} %s"
 git push
 git push --tags
