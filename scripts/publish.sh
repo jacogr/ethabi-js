@@ -15,7 +15,8 @@ git checkout master
 
 npm run build
 
+VERSION=`npm version patch`
 git add --force ./index.js
-git commit --message "auto build"
-VERSION=`npm version patch --force --message '[CI skip] %s'`
+git commit --message "${VERSION}"
+git push
 git push --tags
