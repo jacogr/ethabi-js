@@ -13,11 +13,10 @@ git config credential.helper "store --file=.git/credentials"
 echo "https://${GITHUB_TOKEN}:@github.com" > .git/credentials
 git checkout master
 
-VERSION=`npm version patch`
-
 npm run build
 
-git add --force ./index.js ./package.json
+git add --force ./index.json
+VERSION=`npm version patch`
 git commit --message="[CI skip] ${VERSION}"
 git push
 git tag --annotate --message="Release ${VERSION}" $VERSION
