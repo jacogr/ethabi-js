@@ -10,6 +10,8 @@ npm run build
 
 git config --global user.email "admin@travis-ci.org"
 git config --global user.name "Travis CI"
+git config --global push.default simple
 git add --force ./index.js
 
-npm run npmRelease
+echo $GITHUB_TOKEN
+node_modules/.bin/release-it

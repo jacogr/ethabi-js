@@ -19,7 +19,6 @@
     "lint": "eslint --ignore-path .gitignore ./lib",
     "testCoverage": "istanbul cover _mocha -- 'lib/**/*.spec.js'",
     "testOnce": "mocha 'lib/**/*.spec.js'",
-    "npmRelease": "release-it",
     "publish": "./scripts/publish.sh"
   },
   "devDependencies": {
