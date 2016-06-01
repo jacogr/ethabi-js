@@ -382,6 +382,32 @@ function toParamType(type) {
 
       throw new Error('Cannot convert ' + type + ' to valid ParamType');}}
 
+
+
+function fromParamType(paramType) {
+  switch (paramType.type) {
+    case 'address':
+    case 'bool':
+    case 'bytes':
+    case 'string':
+      return paramType.type;
+
+    case 'int':
+    case 'uint':
+      return '' + paramType.type + paramType.length;
+
+    case 'fixedBytes':
+      return 'bytes' + paramType.length;
+
+    case 'fixedArray':
+      return fromParamType(paramType.subtype) + '[' + paramType.length + ']';
+
+    case 'array':
+      return fromParamType(paramType.subtype) + '[]';
+
+    default:
+      throw new Error('Cannot convert from ParamType ' + paramType.type);}}
+
 var 
 
 Param = function () {
@@ -653,10 +679,8 @@ EventParam = function () {
     params) {
       return params.map(function (param) {return new EventParam(param.name, param.type, param.indexed);});} }]);return EventParam;}();
 
-// eslint-disable-line camelcase
-
 function eventSignature(name, params) {
-  var types = (params || []).map(function (input) {return input.type;}).join(',');
+  var types = (params || []).map(fromParamType).join(',');
   var id = (name || '') + '(' + types + ')';
 
   return jsSha3.keccak_256(id);}
@@ -838,4 +862,4 @@ var
 
 EthAbi = function (_Interface) {babelHelpers.inherits(EthAbi, _Interface);function EthAbi() {babelHelpers.classCallCheck(this, EthAbi);return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(EthAbi).apply(this, arguments));}return EthAbi;}(Interface);
 
-module.exports = EthAbi;/* Wed Jun  1 10:47:34 UTC 2016 */
+module.exports = EthAbi;/* Wed Jun  1 11:25:57 UTC 2016 */
