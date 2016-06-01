@@ -827,4 +827,4 @@ var
 
 EthAbi = function (_Interface) {babelHelpers.inherits(EthAbi, _Interface);function EthAbi() {babelHelpers.classCallCheck(this, EthAbi);return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(EthAbi).apply(this, arguments));}return EthAbi;}(Interface);
 
-module.exports = EthAbi;/* Wed Jun  1 08:57:07 UTC 2016 */
+module.exports = EthAbi;/* Wed Jun  1 08:57:16 UTC 2016 */
