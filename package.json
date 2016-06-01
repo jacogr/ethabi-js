@@ -17,9 +17,9 @@
     "build": "rollup -c",
     "coveralls": "npm run testCoverage && coveralls < coverage/lcov.info",
     "lint": "eslint --ignore-path .gitignore ./lib",
+    "release": "./scripts/release.sh",
     "testCoverage": "istanbul cover _mocha -- 'lib/**/*.spec.js'",
-    "testOnce": "mocha 'lib/**/*.spec.js'",
-    "publish": "./scripts/publish.sh"
+    "testOnce": "mocha 'lib/**/*.spec.js'"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",

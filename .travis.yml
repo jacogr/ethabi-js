@@ -14,4 +14,4 @@ cache:
 script:
   - npm run lint
   - npm run coveralls
-  - npm run publish
+  - npm run release
