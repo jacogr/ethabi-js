@@ -471,12 +471,18 @@ var DecodeResult = function () {
     {
       return this._newOffset;} }]);return DecodeResult;}();
 
-function sliceData(data) {
+function sliceData(_data) {
+  if (!_data || !_data.length) {
+    return [];}
+
+
+  var data = _data.substr(0, 2) === '0x' ? _data.substr(2) : _data;
+
   if (data.length % 64) {
     throw new Error('Invalid data length (not mod 64) passed to sliceData');}
 
 
-  return data.match(/.{1,64}/g) || [];}
+  return data.match(/.{1,64}/g);}
 
 function asU32(slice) {
   // TODO: validation
@@ -862,4 +868,4 @@ var
 
 EthAbi = function (_Interface) {babelHelpers.inherits(EthAbi, _Interface);function EthAbi() {babelHelpers.classCallCheck(this, EthAbi);return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(EthAbi).apply(this, arguments));}return EthAbi;}(Interface);
 
-module.exports = EthAbi;/* Wed Jun  1 11:25:57 UTC 2016 */
+module.exports = EthAbi;/* Wed Jun  1 11:39:06 UTC 2016 */
