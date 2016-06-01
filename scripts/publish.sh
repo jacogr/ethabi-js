@@ -21,9 +21,9 @@ echo "/* ${DATE} */" >> ./index.js
 git add --force index.js
 git commit --message "[CI skip] ${DATE}"
 
-VERSION=`npm version patch --message "[CI skip] ${DATE} %s" | sed s/v//`
+npm version patch --message "[CI skip] ${DATE} %s"
 git push
 git push --tags
 
 echo -e "$NPM_USERNAME\n$NPM_PASSWORD\n$NPM_EMAIL" | npm login
-npm publish --tag $VERSION
+npm publish
