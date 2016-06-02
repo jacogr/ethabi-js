@@ -7,11 +7,15 @@ A very early, very POC-type port of [https://github.com/ethcore/ethabi](https://
 [![Dependency Status](https://david-dm.org/jacogr/ethabi-js.svg)](https://david-dm.org/jacogr/ethabi-js)
 [![devDependency Status](https://david-dm.org/jacogr/ethabi-js/dev-status.svg)](https://david-dm.org/jacogr/ethabi-js#info=devDependencies)
 
-## getting going
+## contributing
 
-- clone
-- `npm install`
-- `npm run testOnce`
+Clone the repo and install dependencies via `npm install`. Tests can be executed via
+
+- `npm run testOnce` (100% covered unit tests)
+
+## installation
+
+Install the package with `npm install --save ethabi-js` from the [npm registry ethabi-js](https://www.npmjs.com/package/ethabi-js)
 
 
 ## implementation
@@ -19,7 +23,7 @@ A very early, very POC-type port of [https://github.com/ethcore/ethabi](https://
 
 - this version tries to stay as close to the original Rust version in intent, function names & purpose
 - it is a basic port of the Rust version, relying on effectively the same test-suite (expanded where deemed appropriate)
-- it is meant as a library to be used in other projects
+- it is meant as a library to be used in other projects, i.e. [ethapi-js](https://www.npmjs.com/package/ethapi-js)
 
 ### differences to original Rust version
 
