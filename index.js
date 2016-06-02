@@ -778,9 +778,14 @@ var
 Func = function () {
   function Func(abi) {babelHelpers.classCallCheck(this, Func);
     this._name = abi.name;
+    this._constant = !!abi.constant;
     this._inputs = Param.toParams(abi.inputs || []);
     this._outputs = Param.toParams(abi.outputs || []);
     this._signature = methodSignature(this._name, this.inputParamTypes());}babelHelpers.createClass(Func, [{ key: 'inputParamTypes', value: function inputParamTypes() 
+
+
+
+
 
 
 
@@ -812,7 +817,7 @@ Func = function () {
 
 
     data) {
-      return Decoder.decode(this.outputParamTypes(), data);} }, { key: 'name', get: function get() {return this._name;} }, { key: 'inputs', get: function get() {return this._inputs;} }, { key: 'outputs', get: function get() {return this._outputs;} }, { key: 'signature', get: function get() {return this._signature;} }]);return Func;}();
+      return Decoder.decode(this.outputParamTypes(), data);} }, { key: 'constant', get: function get() {return this._constant;} }, { key: 'name', get: function get() {return this._name;} }, { key: 'inputs', get: function get() {return this._inputs;} }, { key: 'outputs', get: function get() {return this._outputs;} }, { key: 'signature', get: function get() {return this._signature;} }]);return Func;}();
 
 var 
 
@@ -868,4 +873,4 @@ var
 
 EthAbi = function (_Interface) {babelHelpers.inherits(EthAbi, _Interface);function EthAbi() {babelHelpers.classCallCheck(this, EthAbi);return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(EthAbi).apply(this, arguments));}return EthAbi;}(Interface);
 
-module.exports = EthAbi;/* Wed Jun  1 12:57:12 UTC 2016 */
+module.exports = EthAbi;/* Thu Jun  2 10:54:52 UTC 2016 */
