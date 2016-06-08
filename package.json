@@ -1,6 +1,6 @@
 {
   "name": "ethabi-js",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "main": "index.js",
   "jsnext:main": "lib/index.js",
   "author": "Jaco Greeff <jacogr@gmail.com>",
