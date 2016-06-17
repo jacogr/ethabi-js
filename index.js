@@ -6,58 +6,6 @@ var BigNumber = _interopDefault(require('bignumber.js'));
 var utf8 = _interopDefault(require('utf8'));
 var jsSha3 = require('js-sha3');
 
-var babelHelpers = {};
-
-babelHelpers.classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-
-babelHelpers.createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
-babelHelpers.inherits = function (subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-};
-
-babelHelpers.possibleConstructorReturn = function (self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-};
-
-babelHelpers;
-
 function isArray(test) {
   return Object.prototype.toString.call(test) === '[object Array]';
 }
@@ -116,11 +64,59 @@ function padString(input) {
   return padBytes(encoded);
 }
 
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+var inherits = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+var possibleConstructorReturn = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
 var TYPES = ['raw', 'prefixed', 'fixedArray', 'array'];
 
 var Mediate = function () {
   function Mediate(type, value) {
-    babelHelpers.classCallCheck(this, Mediate);
+    classCallCheck(this, Mediate);
 
     Mediate.validateType(type);
 
@@ -128,7 +124,7 @@ var Mediate = function () {
     this._value = value;
   }
 
-  babelHelpers.createClass(Mediate, [{
+  createClass(Mediate, [{
     key: 'initLength',
     value: function initLength() {
       switch (this._type) {
@@ -258,7 +254,7 @@ var TYPES$1 = ['address', 'bytes', 'int', 'uint', 'bool', 'string', 'array', 'fi
 
 var Token = function () {
   function Token(type, value) {
-    babelHelpers.classCallCheck(this, Token);
+    classCallCheck(this, Token);
 
     Token.validateType(type);
 
@@ -266,7 +262,7 @@ var Token = function () {
     this._value = value;
   }
 
-  babelHelpers.createClass(Token, [{
+  createClass(Token, [{
     key: 'type',
     get: function get() {
       return this._type;
@@ -293,10 +289,10 @@ var Token = function () {
 
 var Encoder = function () {
   function Encoder() {
-    babelHelpers.classCallCheck(this, Encoder);
+    classCallCheck(this, Encoder);
   }
 
-  babelHelpers.createClass(Encoder, null, [{
+  createClass(Encoder, null, [{
     key: 'encode',
     value: function encode(tokens) {
       if (!isArray(tokens)) {
@@ -358,7 +354,7 @@ var Encoder = function () {
 
 var ParamType = function () {
   function ParamType(type, subtype, length) {
-    babelHelpers.classCallCheck(this, ParamType);
+    classCallCheck(this, ParamType);
 
     ParamType.validateType(type);
 
@@ -367,7 +363,7 @@ var ParamType = function () {
     this._length = length;
   }
 
-  babelHelpers.createClass(ParamType, [{
+  createClass(ParamType, [{
     key: 'type',
     get: function get() {
       return this._type;
@@ -462,13 +458,13 @@ function fromParamType(paramType) {
 
 var Param = function () {
   function Param(name, type) {
-    babelHelpers.classCallCheck(this, Param);
+    classCallCheck(this, Param);
 
     this._name = name;
     this._kind = toParamType(type);
   }
 
-  babelHelpers.createClass(Param, [{
+  createClass(Param, [{
     key: 'name',
     get: function get() {
       return this._name;
@@ -491,12 +487,12 @@ var Param = function () {
 
 var Constructor = function () {
   function Constructor(abi) {
-    babelHelpers.classCallCheck(this, Constructor);
+    classCallCheck(this, Constructor);
 
     this._inputs = Param.toParams(abi.inputs || []);
   }
 
-  babelHelpers.createClass(Constructor, [{
+  createClass(Constructor, [{
     key: 'inputParamTypes',
     value: function inputParamTypes() {
       return this._inputs.map(function (input) {
@@ -519,13 +515,13 @@ var Constructor = function () {
 
 var BytesTaken = function () {
   function BytesTaken(bytes, newOffset) {
-    babelHelpers.classCallCheck(this, BytesTaken);
+    classCallCheck(this, BytesTaken);
 
     this._bytes = bytes;
     this._newOffset = newOffset;
   }
 
-  babelHelpers.createClass(BytesTaken, [{
+  createClass(BytesTaken, [{
     key: "bytes",
     get: function get() {
       return this._bytes;
@@ -541,13 +537,13 @@ var BytesTaken = function () {
 
 var DecodeResult = function () {
   function DecodeResult(token, newOffset) {
-    babelHelpers.classCallCheck(this, DecodeResult);
+    classCallCheck(this, DecodeResult);
 
     this._token = token;
     this._newOffset = newOffset;
   }
 
-  babelHelpers.createClass(DecodeResult, [{
+  createClass(DecodeResult, [{
     key: "token",
     get: function get() {
       return this._token;
@@ -603,10 +599,10 @@ function asBool(slice) {
 
 var Decoder = function () {
   function Decoder() {
-    babelHelpers.classCallCheck(this, Decoder);
+    classCallCheck(this, Decoder);
   }
 
-  babelHelpers.createClass(Decoder, null, [{
+  createClass(Decoder, null, [{
     key: 'decode',
     value: function decode(params, data) {
       if (!isArray(params)) {
@@ -730,13 +726,13 @@ var Decoder = function () {
 
 var DecodedLog = function () {
   function DecodedLog(params, address) {
-    babelHelpers.classCallCheck(this, DecodedLog);
+    classCallCheck(this, DecodedLog);
 
     this._params = params;
     this._address = address;
   }
 
-  babelHelpers.createClass(DecodedLog, [{
+  createClass(DecodedLog, [{
     key: "address",
     get: function get() {
       return this._address;
@@ -752,7 +748,7 @@ var DecodedLog = function () {
 
 var DecodedLogParam = function () {
   function DecodedLogParam(name, kind, token) {
-    babelHelpers.classCallCheck(this, DecodedLogParam);
+    classCallCheck(this, DecodedLogParam);
 
     if (!isInstanceOf(kind, ParamType)) {
       throw new Error('kind not instanceof ParamType');
@@ -765,7 +761,7 @@ var DecodedLogParam = function () {
     this._token = token;
   }
 
-  babelHelpers.createClass(DecodedLogParam, [{
+  createClass(DecodedLogParam, [{
     key: 'name',
     get: function get() {
       return this._name;
@@ -786,14 +782,14 @@ var DecodedLogParam = function () {
 
 var EventParam = function () {
   function EventParam(name, type, indexed) {
-    babelHelpers.classCallCheck(this, EventParam);
+    classCallCheck(this, EventParam);
 
     this._name = name;
     this._kind = toParamType(type);
     this._indexed = !!indexed;
   }
 
-  babelHelpers.createClass(EventParam, [{
+  createClass(EventParam, [{
     key: 'name',
     get: function get() {
       return this._name;
@@ -832,7 +828,7 @@ function methodSignature(name, params) {
 
 var Event = function () {
   function Event(abi) {
-    babelHelpers.classCallCheck(this, Event);
+    classCallCheck(this, Event);
 
     this._name = abi.name;
     this._inputs = EventParam.toEventParams(abi.inputs || []);
@@ -840,7 +836,7 @@ var Event = function () {
     this._signature = eventSignature(this._name, this.inputParamTypes());
   }
 
-  babelHelpers.createClass(Event, [{
+  createClass(Event, [{
     key: 'inputParamTypes',
     value: function inputParamTypes() {
       return this._inputs.map(function (input) {
@@ -936,7 +932,7 @@ var Event = function () {
 
 var Func = function () {
   function Func(abi) {
-    babelHelpers.classCallCheck(this, Func);
+    classCallCheck(this, Func);
 
     this._name = abi.name;
     this._constant = !!abi.constant;
@@ -945,7 +941,7 @@ var Func = function () {
     this._signature = methodSignature(this._name, this.inputParamTypes());
   }
 
-  babelHelpers.createClass(Func, [{
+  createClass(Func, [{
     key: 'inputParamTypes',
     value: function inputParamTypes() {
       return this._inputs.map(function (input) {
@@ -1000,12 +996,12 @@ var Func = function () {
 
 var Interface = function () {
   function Interface(abi) {
-    babelHelpers.classCallCheck(this, Interface);
+    classCallCheck(this, Interface);
 
     this._interface = Interface.parseABI(abi);
   }
 
-  babelHelpers.createClass(Interface, [{
+  createClass(Interface, [{
     key: 'encodeTokens',
     value: function encodeTokens(paramTypes, values) {
       var createToken = function createToken(paramType, value) {
@@ -1072,14 +1068,14 @@ var Interface = function () {
 }();
 
 var EthAbi = function (_Interface) {
-  babelHelpers.inherits(EthAbi, _Interface);
+  inherits(EthAbi, _Interface);
 
   function EthAbi() {
-    babelHelpers.classCallCheck(this, EthAbi);
-    return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(EthAbi).apply(this, arguments));
+    classCallCheck(this, EthAbi);
+    return possibleConstructorReturn(this, Object.getPrototypeOf(EthAbi).apply(this, arguments));
   }
 
   return EthAbi;
 }(Interface);
 
-module.exports = EthAbi;/* Thu Jun  9 05:42:12 UTC 2016 */
+module.exports = EthAbi;/* Fri Jun 17 08:06:46 UTC 2016 */
