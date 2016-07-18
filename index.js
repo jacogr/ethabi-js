@@ -1078,4 +1078,4 @@ var EthAbi = function (_Interface) {
   return EthAbi;
 }(Interface);
 
-module.exports = EthAbi;/* Fri Jun 17 08:06:46 UTC 2016 */
+module.exports = EthAbi;/* Mon Jul 18 08:01:27 UTC 2016 */
